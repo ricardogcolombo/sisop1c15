@@ -1,0 +1,85 @@
+\documentclass[a4,11pt]{article}
+
+\parindent=10pt
+\parskip=6pt
+%\usepackage[width=15.5cm, left=2.5cm, top=2cm, height= 24.5cm]{geometry}
+\usepackage[paper=a4paper, left=2cm, right=2cm, bottom=2.5cm,top=2.5cm]{geometry}
+
+% Paquetes de nacionalización. No olvidar para poder poner tildes!
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+
+% Paquetes para graficos
+\usepackage{subfig}
+% \usepackage{graphicx} %% La caratula lo incluye
+
+% Paquetes para matematica
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Paquetes para pseudo
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Caratula (Recordar logo_uba.jpg y logo_dc.jpg)
+\usepackage{caratula}
+
+% Paquetes para tablas
+\usepackage[table]{xcolor}
+
+% Se pueden sacar?
+\usepackage{url}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage{tabularx}
+
+% Color de links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\begin{document}
+
+
+\materia{Metodos numericos}
+\submateria{Primer Cuatrimestre de 2015}
+\titulo{Trabajo Pr\'actico 1}
+\subtitulo{“Scheduler”}
+\integrante{Ricardo Colombo}{156/08}{ricardogcolombo@gmail.com}
+\integrante{Franco Negri}{893/13}{franconegri2004@hotmail.com}
+\integrante{Federico Suarez}{610/11}{elgeniofederico@gmail.com}
+
+\maketitle
+\pagebreak
+  
+\tableofcontents
+
+\pagebreak
+
+\section{Introduccion teorica}
+
+\input{introduccion}
+
+\pagebreak
+\section{Desarrollo}
+
+\input{desarrollo}
+
+
+\pagebreak
+\section{Conclusiones}
+
+\input{conclusiones}
+
+\pagebreak
+\section{Apendice}
+
+\input{apendice}
+
+\end{document}

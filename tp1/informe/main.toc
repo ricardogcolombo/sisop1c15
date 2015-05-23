@@ -1,0 +1,18 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Introduccion teorica}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Preambulo}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Metricas a utilizar}{3}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Experimentacion Preliminar Sobre Scheduler FCFS}{3}{subsection.1.3}
+\contentsline {section}{\numberline {2}Desarrollo}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Round Robin simple}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Round Robin Sin Migracion Entre CPUs}{8}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Comparando implementaciones de Round Robin}{8}{subsection.2.3}
+\contentsline {section}{\numberline {3}Paper Scheduling Algorithms for Multiprogramming in a Hard Real Time Enviroment by C. L. Liu}{10}{section.3}
+\contentsline {subsection}{\numberline {3.1}Problema}{10}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Scheduler Fixed Para Real Time}{10}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Problemas del Scheduler Fixed y secci\IeC {\'o}n 7}{11}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Scheduler Dynamic Para Real Time}{12}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Experimentacion Comparacion Fixed vs Dynamic}{13}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Teorema 7}{14}{subsection.3.6}
+\contentsline {section}{\numberline {4}Conclusiones}{15}{section.4}
+\contentsline {section}{\numberline {5}Apendice}{16}{section.5}
