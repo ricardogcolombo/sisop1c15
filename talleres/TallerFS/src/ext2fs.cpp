@@ -281,16 +281,18 @@ unsigned int Ext2FS::blockaddr2sector(unsigned int block)
 struct Ext2FSInode * Ext2FS::load_inode(unsigned int inode_number)
 {
 	unsigned int block_size = 1024 << _superblock->log_block_size;
-
+	//creo la estructura del inode
 	Ext2FSInode* result = (Ext2FSInode*) malloc(sizeof(Ext2FSInode));
-
+	//saco el numero de grupo
 	unsigned into blockGroupIndex = blockgroup_for_inode(inode_number);
+	//obtengo el indice del inode
 	unsigned int intodeIndex = blockgroup_inode_index(inode_number);
-
-	Ext2FSBlockGroupDescriptorriptor* blockGroup = block_group(blockGroupIndex);
+	//obtengo el indice del grupo de descriptor
+	Ext2FSBlockGroupDescriptor* blockGroup = block_group(blockGroupIndex);
+	//saco la cantidad de inodos 
 	unsigned int inodes_per_block = block_size / _superblock->inode_size;
 	unsigned int targetBlock = inodeIndex / inodes_per_blockblock;
-	unsigned int targetBlockOffset = inodeIndex % inodes_per_block;inodes_per_block
+	unsigned int targetBlockOffset = inodeIndex % inodes_per_block;
 
 	unsigned char buffer[1024];
 
@@ -361,6 +363,30 @@ struct Ext2FSInode * Ext2FS::get_file_inode_from_dir_inode(struct Ext2FSInode * 
 	//std::cerr << *from << std::endl;
 	assert(INODE_ISDIR(from));
 
+	Ext2FSInode * response = NULL;
+
+	bool noEncontre= true;
+	unsigned int actual = 0;
+
+	while(noEncontre){
+		//obtengo la direccion del bloque
+		unsigned int dirBlock = get_block_address(from,actual);
+		unsigned char buffer[1024];
+		read_block(dirBlock,buffer);
+		//itero sobre los directorios
+		bool mientrasHayElementos = true;
+		unsigned int elemento = 0;
+		while(mientrasHayElementos && noEncontre){
+			Ext2FSDirEntry* dEntry = ((Ext2FSDirEntry*) &buffer[iterator]);
+			if(strncmp(dEntry->name,filename,dEntry->name_length)==0){	
+				noEncontre = false;
+				response = load_inode(dEntry->inode);
+			}
+			elemento += dEntry->record_length;
+			mientrasHayElementos= (actual<1024);
+		}
+		actual++;
+	}
 }
 
 fd_t Ext2FS::get_free_fd()
