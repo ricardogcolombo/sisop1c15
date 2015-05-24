@@ -378,8 +378,7 @@ struct Ext2FSInode * Ext2FS::get_file_inode_from_dir_inode(struct Ext2FSInode * 
 		bool mientrasHayElementos = true;
 		unsigned int elemento = 0;
 		while(mientrasHayElementos && noEncontre){
-			//Que es iterator?
-			Ext2FSDirEntry* dEntry = ((Ext2FSDirEntry*) &buffer[iterator]);
+			Ext2FSDirEntry* dEntry = ((Ext2FSDirEntry*) &buffer[elemento]);
 			if(strncmp(dEntry->name,filename,dEntry->name_length)==0){	
 				noEncontre = false;
 				response = load_inode(dEntry->inode);
