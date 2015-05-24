@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cstring>
 #include <iostream>
+#include <stdlib.h>
 
 Ext2FS::Ext2FS(HDD & disk, unsigned char pnumber) : _hdd(disk), _partition_number(pnumber)
 {
@@ -284,19 +285,19 @@ struct Ext2FSInode * Ext2FS::load_inode(unsigned int inode_number)
 	//creo la estructura del inode
 	Ext2FSInode* result = (Ext2FSInode*) malloc(sizeof(Ext2FSInode));
 	//saco el numero de grupo
-	unsigned into blockGroupIndex = blockgroup_for_inode(inode_number);
+	unsigned int blockGroupIndex = blockgroup_for_inode(inode_number);
 	//obtengo el indice del inode
-	unsigned int intodeIndex = blockgroup_inode_index(inode_number);
+	unsigned int inodeIndex = blockgroup_inode_index(inode_number);
 	//obtengo el indice del grupo de descriptor
 	Ext2FSBlockGroupDescriptor* blockGroup = block_group(blockGroupIndex);
 	//saco la cantidad de inodos 
 	unsigned int inodes_per_block = block_size / _superblock->inode_size;
-	unsigned int targetBlock = inodeIndex / inodes_per_blockblock;
+	unsigned int targetBlock = inodeIndex / inodes_per_block;
 	unsigned int targetBlockOffset = inodeIndex % inodes_per_block;
 
 	unsigned char buffer[1024];
 
-	unsigned int inodeBlockALeer = blockGroupIndexup->inode_table + targetBlock;
+	unsigned int inodeBlockALeer = blockGroup->inode_table + targetBlock;
 	read_block(inodeBlockALeer, buffer);
 
 	memcpy(result, buffer + targetBlockOffset * (_superblock->inode_size), sizeof(Ext2FSInode));
@@ -312,38 +313,38 @@ unsigned int Ext2FS::get_block_address(struct Ext2FSInode * inode, unsigned int 
 	if(block_number<12){
 		return inode->block[block_number];
 	}else{
-		unsigned char * buffer[inode->size];
-		unsigned int cantBloques = 1024 << _superblock->log_block_sizei / sizeof(unsigned int);
+		unsigned char buffer[inode->size];
+		unsigned int cantBloques = 1024 << _superblock->log_block_size / sizeof(unsigned int);
 		if(block_number<cantBloques){
-
-			read_block(inode->block[12],buffer);
+			unsigned int aux = inode->block[12];
+			read_block((unsigned int)aux,buffer);
 			return buffer[block_number-12];	
 
 		}else{
 
 			if(block_number<cantBloques*cantBloques){
 				read_block(inode->block[13],buffer);
-				unsigned char * buffer2[inode->size];
+				unsigned char buffer2[inode->size];
 				unsigned int nuevapos = (block_number-(cantBloques+12)) /cantBloques;
-				read_block(inode[nuevapos],buffer2);
+				read_block(inode->block[nuevapos],buffer2);
 				unsigned int posFinal = block_number-(cantBloques+12) -  nuevapos*cantBloques;
 				return buffer2[posFinal];
 			}
 			//ultima posicion 
 				read_block(inode->block[14],buffer);
 				//primera tabla
-				unsigned char * buffer2[inode->size];
+				unsigned char buffer2[inode->size];
 				unsigned int primerDir = (block_number-(cantBloques+12) -cantBloques*cantBloques)/(cantBloques*cantBloques*cantBloques);
 				read_block(buffer[primerDir],buffer2);
 				///segunda tabla
-				unsigned char * buffer3[inode->size];
+				unsigned char buffer3[inode->size];
 				unsigned int segundaDir =(block_number -(cantBloques+12)-cantBloques*cantBloques-primerDir*cantBloques*cantBloques*cantBloques)/cantBloques*cantBloques;
 				read_block(buffer2[segundaDir],buffer3);
 				//tercer tabla
 				unsigned int tercerDir =(block_number -(cantBloques+12)-cantBloques*cantBloques-primerDir*cantBloques*cantBloques*cantBloques-segundaDir*cantBloques*cantBloques)/cantBloques;
 				read_block(buffer3[tercerDir],buffer);
 				unsigned int posFinal = (block_number -(cantBloques+12)-cantBloques*cantBloques-primerDir*cantBloques*cantBloques*cantBloques-segundaDir*cantBloques*cantBloques-tercerDir*cantBloques);
-				return buffer[posFinal]	
+				return buffer[posFinal];
 		}
 	}
 }
@@ -377,6 +378,7 @@ struct Ext2FSInode * Ext2FS::get_file_inode_from_dir_inode(struct Ext2FSInode * 
 		bool mientrasHayElementos = true;
 		unsigned int elemento = 0;
 		while(mientrasHayElementos && noEncontre){
+			//Que es iterator?
 			Ext2FSDirEntry* dEntry = ((Ext2FSDirEntry*) &buffer[iterator]);
 			if(strncmp(dEntry->name,filename,dEntry->name_length)==0){	
 				noEncontre = false;
