@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS=-g -Wall -pedantic -m64 -I../include/
+CFLAGS=-g -Wall -pedantic -m32 -I../include/
 
 all: hdd.o pentry.o mbr.o
 
