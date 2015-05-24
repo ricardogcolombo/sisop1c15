@@ -388,6 +388,7 @@ struct Ext2FSInode * Ext2FS::get_file_inode_from_dir_inode(struct Ext2FSInode * 
 		}
 		actual++;
 	}
+	return response;
 }
 
 fd_t Ext2FS::get_free_fd()
