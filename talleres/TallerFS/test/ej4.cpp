@@ -14,17 +14,14 @@ int main(int argc, char ** argv)
 
 	Ext2FS * fs = new Ext2FS(hdd, 1);
 
-	Ext2FSInode * inodoPath = fs->inode_for_path("/grupos/g1/");
-
-	Ext2FSInode *inodo_de_la_nota = fs->get_file_inode_from_dir_inode(inodoPath,"nota.txt");
-
-	unsigned int dir = fs->get_block_address(inodo_de_la_nota, 0);
-
-	unsigned char bufer[10000];
-
-	fs->read_block(dir, bufer);
-
+	unsigned char bufer[18];
+	
+	fd_t nota = fs->open("/grupos/g10/nota.txt","r");
+	fs->seek(nota,13999);
+	fs->read(nota,bufer,17);
+	bufer[17]='\0';
 	printf("%s\n", bufer);
+	fs->close(nota);
 
 	return 0;
 }

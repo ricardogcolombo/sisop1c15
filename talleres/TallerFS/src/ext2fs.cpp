@@ -310,41 +310,31 @@ struct Ext2FSInode * Ext2FS::load_inode(unsigned int inode_number)
 unsigned int Ext2FS::get_block_address(struct Ext2FSInode * inode, unsigned int block_number)
 {
 
-	if(block_number<12){
+	unsigned int tam_bloque = 1024 << _superblock->log_block_size;
+	unsigned int tam_addr = sizeof(unsigned int);
+	unsigned int cantBloques = tam_bloque/tam_addr;
+
+	unsigned int directos = 12;
+	unsigned int unaIndireccion = (tam_bloque / tam_addr) + directos;
+	unsigned int dosIndirecciones = ((tam_bloque /tam_addr) * cantBloques) + unaIndireccion;
+
+	if(block_number<directos){
 		return inode->block[block_number];
 	}else{
-		unsigned char buffer[inode->size];
-		unsigned int cantBloques = 1024 << _superblock->log_block_size / sizeof(unsigned int);
-		if(block_number<cantBloques){
+		unsigned char buffer[1024];
+
+		if(block_number<unaIndireccion){
 			unsigned int aux = inode->block[12];
 			read_block((unsigned int)aux,buffer);
-			return buffer[block_number-12];	
+			return *((unsigned int*) (buffer + tam_addr * (block_number-directos)));	
 
 		}else{
 
-			if(block_number<cantBloques*cantBloques){
-				read_block(inode->block[13],buffer);
-				unsigned char buffer2[inode->size];
-				unsigned int nuevapos = (block_number-(cantBloques+12)) /cantBloques;
-				read_block(inode->block[nuevapos],buffer2);
-				unsigned int posFinal = block_number-(cantBloques+12) -  nuevapos*cantBloques;
-				return buffer2[posFinal];
-			}
-			//ultima posicion 
-				read_block(inode->block[14],buffer);
-				//primera tabla
-				unsigned char buffer2[inode->size];
-				unsigned int primerDir = (block_number-(cantBloques+12) -cantBloques*cantBloques)/(cantBloques*cantBloques*cantBloques);
-				read_block(buffer[primerDir],buffer2);
-				///segunda tabla
-				unsigned char buffer3[inode->size];
-				unsigned int segundaDir =(block_number -(cantBloques+12)-cantBloques*cantBloques-primerDir*cantBloques*cantBloques*cantBloques)/cantBloques*cantBloques;
-				read_block(buffer2[segundaDir],buffer3);
-				//tercer tabla
-				unsigned int tercerDir =(block_number -(cantBloques+12)-cantBloques*cantBloques-primerDir*cantBloques*cantBloques*cantBloques-segundaDir*cantBloques*cantBloques)/cantBloques;
-				read_block(buffer3[tercerDir],buffer);
-				unsigned int posFinal = (block_number -(cantBloques+12)-cantBloques*cantBloques-primerDir*cantBloques*cantBloques*cantBloques-segundaDir*cantBloques*cantBloques-tercerDir*cantBloques);
-				return buffer[posFinal];
+			read_block((inode->block[13]), buffer);
+			unsigned int numeroDeBloque = (block_number - unaIndireccion) / cantBloques;
+			unsigned int offset = (block_number - unaIndireccion) % cantBloques;
+			read_block(buffer[(numeroDeBloque * tam_bloque)], buffer);
+			return *((unsigned int*) (buffer + tam_addr * offset));
 		}
 	}
 }

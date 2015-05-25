@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g -Wall -pedantic -m64 -lstdc++ -I../include/
+CFLAGS=-g -Wall -pedantic -m32 -lstdc++ -I../include/
 
 all: ej4
 
