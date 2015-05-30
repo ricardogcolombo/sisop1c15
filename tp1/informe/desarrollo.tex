@@ -27,7 +27,7 @@ Como primer lote corrimos 5 tareas de CPU intensivo y una tarea que tarda mucho 
 \end{figure}
 En este test podemos observar que el waiting time es bastante grande para todas las tareas. El turnarroud tambien es bastante amplio para tareas con un tiempo de ejecucion no tan elevado. Sin embargo a pesar de eso puede notarse la principal caracteristica de este algoritmo de scheduling y es que todas las tareas reciben el mismo tiempo de procesamiento y en un orden circular que asegura que ninguna sufra de starvation.
 \\
-El segundo lote que probamos fue una tarea taskCPU con 4 repeticiones que arranca en el tiempo 3 que aparecen cada 10 ticks de duración 3. Otra tarea taskIO que arranca en el tiempo 6 tarda 4 CPU y 2 de uso IO. Quantum 6.
+El segundo lote que probamos fue una tarea taskCPU con 4 repeticiones que arranca en el tiempo 3 que aparecen cada 10 ticks de duración 3. Otra tarea taskIO que arranca en el tiempo 6 tarda 4 CPU y 2 de uso IO. Quantum 5.
 \\
 %./simusched tsks/lote2rr.tsk 1 1 1 SchedRR 5
 \begin{figure}[H]
@@ -135,7 +135,8 @@ Antes de comenzar la explicación de este algoritmo de scheduling, definamos alg
 
 Este scheduler se basa en prioridades fijas, es decir, antes de comenzar la ejecución de un set de tareas, se establecen las prioridades de las mismas. Una vez establecidas las prioridades, comienza la ejecución de las tareas y las prioridades ya no pueden cambiarse y deben respetarse a rajatabla. Las prioridades se asignan en base a la frecuencia de cada tarea periódica, es decir, una mayor frecuencia significa una mayor prioridad, con lo cual aquellas tareas que lleguen más seguido al sistema serán las que mayor prioridad de ejecución tengan. Es importante notar que para que este tipo de scheduler estático sea factible, todas las tareas deben satisfacer sus deadlines en sus instantes críticos.
 \\
-
+Nuestra implementación utiliza una cola de prioridad para las tareas que están en Ready. Esa prioridad estaba basada en el período de una tarea, es decir, a menor período mayor prioridad. En cada tick para CPU se evalua si la tarea en el tope de la cola tiene mayor prioridad que la tarea en ejecución, si así lo es entonces se desaloja la tarea actual colocándola nuevamente en la cola y se pone a correr la tarea de mayor prioridad, y en caso contrario no se hace nada y la tarea actual sigue ejecutando.
+\\
 Para ver a este scheduler en acción y analizar su comportamiento, diseñamos dos sets de tareas para los cuales el scheduling estático sea un algoritmo factible. El primer set se trata de dos familias de tareas periódicas y el segundo de tres familias. A continuación se muestra lo que obtuvimos.
 
 \begin{figure}[H]
@@ -165,7 +166,10 @@ Este factor de utilización se encuentra acotado superiormente por el requerimie
 
 
 \subsection{Scheduler Dynamic Para Real Time}
-Este es un scheduler que se basa en prioridades dinámicas, es decir, las prioridades se asignan en el momento siguiendo del criterio elegido. En nuestro algoritmo de scheduling para asignar las prioridades a cada momento se basa en cuál es la tarea con el deadline más cercano, es decir, se les asignará una mayor prioridad a las tareas cuyo deadline sea el más cercano al momento actual. Esto quiere decir que siempre tendrá prioridad de ejecución la tarea más próxima a recibir su siguiente llamado a la misma.Es importante notar que este algoritmo de scheduling maximiza el factor de utilización del procesador, es decir, aproximandolo al 100\%
+Este es un scheduler que se basa en prioridades dinámicas, es decir, las prioridades se asignan en el momento siguiendo del criterio elegido. En nuestro algoritmo de scheduling para asignar las prioridades a cada momento se basa en cuál es la tarea con el deadline más cercano, es decir, se les asignará una mayor prioridad a las tareas cuyo deadline sea el más cercano al momento actual. Esto quiere decir que siempre tendrá prioridad de ejecución la tarea más próxima a recibir su siguiente llamado a la misma. Es importante notar que este algoritmo de scheduling maximiza el factor de utilización del procesador, es decir, aproximándolo al 100\%
+\\
+La implementación de este scheduler es muy similar al del scheduler de prioridades fijas previamente visto. La única diferencia es que la prioridad utilizada en la cola de Readys es el tick en que la tarea volverá a llegar al sistema (su deadline), es decir, es la suma entre el tick en el que llega la tarea al sistema y su período. Para que este cálculo no se pierda para las tareas que están ejecutando, porque las saco de la cola, utilizo una lista auxiliar en la que guardo las tareas que están corriendo con sus respectivos deadlines.
+\\
 
 Para este algoritmo lo que hicimos en la parte de test fue revisar los mismos set de tareas que en el caso del fixed para ver primero cómo se comporta en comparación con el otro algoritmo.
 
