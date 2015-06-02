@@ -34,16 +34,16 @@ int main(int argc, char* argv[]) {
 
     /* Establecer la dirección a la cual conectarse para escuchar. */
     while( printf("> "), fgets(buf, MENSAJE_MAXIMO, stdin), !feof(stdin) ) {
+        if (sendto(socket_fd, buf, strlen(buf), 0, (struct sockaddr *)&remote, sizeof(remote)) == -1) {
+            perror("enviando");
+            exit(1);
+        }
+
 
     	//buf[MENSAJE_MAXIMO]="\0";
         if(strcmp(buf,"chau\n") == 0){
 
             break;
-        }
-
-        if (sendto(socket_fd, buf, strlen(buf), 0, (struct sockaddr *)&remote, sizeof(remote)) == -1) {
-            perror("enviando");
-            exit(1);
         }
 
         memset(&buf[0],0,MENSAJE_MAXIMO);

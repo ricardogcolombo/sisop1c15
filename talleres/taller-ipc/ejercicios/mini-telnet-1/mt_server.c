@@ -29,6 +29,9 @@ int main(int argc, char* argv[])
 		if (strncmp(buf, END_STRING, MAX_MSG_LENGTH) == 0)
 			break;
 		printf("Comando: %s", buf);
+		if(strcmp(buf,"chau\n") == 0){
+			break;
+		}
 		system(buf);
 	}
 
