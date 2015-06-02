@@ -53,11 +53,26 @@ void TaskBatch(int pid, vector<int> params) { // params: total_cpu, cant_bloqueo
 	//En cada tal ocasi ́on, la tarea deber ́a permanecer bloqueada durante exactamente un (1) ciclo de reloj
 	int total_cpu = params[0];
 	int cant_bloqueos = params[1];
-	for (int i = 0; i < cant_bloqueos; i++) {
-		int intervalo = rand() % total_cpu-1;
-		usleep(intervalo);
-		int tiempoBloq = total_cpu - intervalo;
-		uso_CPU(pid,tiempoBloq);
+	int tiempos[total_cpu];
+	int bloqueos_seteados = 0;
+//lleno todo de ceros por si las dudas
+	for(int j =0;j<total_cpu;j++)
+		tiempos[total_cpu]=0;
+//elijo numeros aleatorios entre 0 y tiempo total para saber poner cuando hay un bloqueo
+	while(bloqueos_seteados<cant_bloqueos){
+		int tiempo_bloq = rand()% total_cpu-1;
+		if(tiempos[tiempo_bloq]==0){
+			tiempos[tiempo_bloq]=1;
+			bloqueos_seteados++;
+		}
+	}	
+	for(int i =0;i<total_cpu;i++){
+		if(tiempos[i]==0){
+			uso_CPU(pid,1);
+
+		}else{
+			uso_IO(pid,1);
+		}
 	}
 }
 
