@@ -60,8 +60,10 @@ int main(int argc, char* argv[]) {
         str[n] = '\0'; /* Agregar caracter de fin de cadena a lo recibido. */
         printf("Ejecutando: %s", str);
 
-
-
+      if(strcmp(str,"chau\n") == 0){
+            break;
+      }
+ 
         system(str);
 
         int tamanio = read(pipefd[0], buffer, sizeof(buffer));

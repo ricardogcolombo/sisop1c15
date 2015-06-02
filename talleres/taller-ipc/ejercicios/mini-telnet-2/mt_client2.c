@@ -31,6 +31,9 @@ int main(int argc, char* argv[]) {
    {
       sendto(sockfd,sendline,strlen(sendline),0,
       (struct sockaddr *)&servaddr,sizeof(servaddr));
+      if(strcmp(sendline,"chau\n") == 0){
+            break;
+      }
       n=recvfrom(sockfd,recvline,10000,0,NULL,NULL);
       recvline[n]=0;
       fputs(recvline,stdout);
@@ -41,6 +44,7 @@ int main(int argc, char* argv[]) {
 
    }
 
+close(sockfd);
 	return 0;
 }
 
