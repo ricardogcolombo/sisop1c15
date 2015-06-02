@@ -1,12 +1,12 @@
 CC=g++
-CFLAGS=-g -Wall -pedantic -m32 -I../include/
+CFLAGS=-g -Wall -pedantic -m32 -lstdc++ -I../include/
 
-all: testhdd
+all: ej4
 
-testhdd: testhdd.o ../src/hdd.o ../src/mbr.o ../src/pentry.o ../src/ext2fs.o
+ej4: ej4.o ../src/hdd.o ../src/mbr.o ../src/pentry.o ../src/ext2fs.o
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
-testhdd.o: testhdd.cpp
+ej4.o: ej4.cpp
 	$(CC) $(CFLAGS) $(LDFLAGS) -c $^ -o $@
 
 %.o: %.cpp
@@ -14,4 +14,4 @@ testhdd.o: testhdd.cpp
 
 clean:
 	rm -rf *.o
-	rm -rf testhdd
+	rm -rf ej4

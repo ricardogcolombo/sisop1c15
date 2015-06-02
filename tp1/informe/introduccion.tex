@@ -18,20 +18,35 @@ A manera de introducción, en la siguiente sección se implementarán algunas ta
 \subsection{Experimentacion Preliminar Sobre Scheduler FCFS}
 
 Para esta experimentación primero implementaremos una tarea a la que denominaremos TaskConsola, que simulará una tarea interactiva. La misma contara con $n$ llamadas bloqueantes al sistema de un tiempo aleatorio pasado por parámetro.
+
+La tarea TaskConsola es una función que recibe tres parámetros, el número $n$ de llamadas bloqueantes que debe realizar y las cotas superior e inferior que puede tener el intervalo aleatorio, $bmin$ y $bmax$. Una vez dentro de la función se cicla $n$ veces calculando el intervalo aleatorio en cada iteración y realizando una llamada bloqueante en cada caso con la duración correspondiente.
 \\
-Luego crearemos un lote de tareas a ejecutar por el simulador, una que utilice de manera intensiva el CPU, y dos TaskConsola.
+Luego crearemos un lote de tareas a ejecutar por el simulador, una que utilice de manera intensiva el CPU, y dos TaskConsola. Se realizará una simulación para uno, dos y tres núcleos.
 \\
-Lo obtenido puede verse en el siguiente grafico:
+Lo obtenido puede verse en los siguientes gráficos:
 \\
 \begin{figure}[H]
   \centering
-	\includegraphics[scale=0.45]{graficos/parte1/testFCFS.png}
+	\includegraphics[scale=0.45]{graficos/parte1/testFCFS1.png}
   \caption[Caption for LOF]{}
 \end{figure}
-A simple vista puede verse cual es uno de los problemas fundamentales con este scheduler. Cuando la tarea 1 esta bloqueada en espera de algun recurso, el procesador, en vez de cambiar de tarea y intentar adelantar alguna otra, no esta siendo utilizado para nada lo que es sin duda una desventaja tanto para el turnaround, ya que otras tareas podrian terminar antes si se ejecutaran, como para el waiting time, ya que se ve claramente que la tarea 2 esta teniendo que esperar un gran tiempo sin ser ejecutada.
+\begin{figure}[H]
+  \centering
+	\includegraphics[scale=0.45]{graficos/parte1/testFCFS2.png}
+  \caption[Caption for LOF]{}
+\end{figure}
+\begin{figure}[H]
+  \centering
+	\includegraphics[scale=0.45]{graficos/parte1/testFCFS3.png}
+  \caption[Caption for LOF]{}
+\end{figure}
+
+En el caso de un núcleo puede verse a simple vista cuál es uno de los problemas fundamentales con este scheduler. Cuando la tarea 1 está bloqueada en espera de algún recurso, el procesador, en vez de cambiar de tarea e intentar adelantar alguna otra, no está siendo utilizado para nada lo que es sin duda una desventaja tanto para el turnaround, ya que otras tareas podrían terminar antes si se ejecutaran, como para el waiting time, ya que se ve claramente que la tarea 2 está teniendo que esperar un gran tiempo sin ser ejecutada.
 \\
-Ademas, si se diera el caso en que un gran numero de tareas esten esperando para ser ejecutadas, y la primera tarea, por la razon que sea, nunca termine, entonces todas las demas tareas sufrirán de inanición.
+En los casos de dos y tres núcleos, si bien pueden correrse dos o tres tareas simultáneamente, el 'desperdicio' de procesador por cada núcleo sigue siendo el mismo ya que al hacerse una llamada bloqueante no se desaloja la tarea dándole lugar a otra, sino que el CPU queda ocupado.
 \\
-Aun así este tipo de shceduler puede ser util, ya que es muy facil de implementar y es posible hacerlo en sistemas donde no se cuentan con interrupciones temporales de las que el kernel pueda hacer uso.
+Además, cuando se tiene sólo un núcleo, si se diera el caso en que un gran numero de tareas esten esperando para ser ejecutadas, y la primera tarea, por la razón que sea, nunca terminara, entonces todas las demás tareas sufrirían de inanición.
 \\
-En los siguientes apartados pasaremos a describir e implementar varios schedulers de mayor complegidad que intenten lidiar con los problemas descriptos anteriormente, esto es, schedulers que permitan aprovechar los tiempos muertos en los que la tarea en ejecucion debe esperar por algun recurso y que tenga sierto grado de 'justicia' para que ninguna tarea sufra de inanición. Ademas realizaremos diversas experimentaciones para ver que ventajas y desventajas con la utilizacion de cada uno.
+Aún así este tipo de scheduler puede ser útil, ya que es muy fácil de implementar y es posible hacerlo en sistemas donde no se cuentan con interrupciones temporales de las que el kernel pueda hacer uso.
+\\
+En los siguientes apartados pasaremos a describir e implementar varios schedulers de mayor complejidad que intenten lidiar con los problemas descriptos anteriormente, esto es, schedulers que permitan aprovechar los tiempos muertos en los que la tarea en ejecución debe esperar por algún recurso y que tenga cierto grado de 'justicia' para que ninguna tarea sufra de inanición. Además realizaremos diversas experimentaciones para ver que ventajas y desventajas existen con la utilización de cada uno.

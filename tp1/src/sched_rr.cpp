@@ -29,6 +29,8 @@ SchedRR::SchedRR(vector<int> argn) {
 }
 
 SchedRR::~SchedRR() {
+	delete(quantums);
+	delete(contadores_quantum);
 }
 
 
@@ -53,19 +55,11 @@ int SchedRR::tick(int cpu, const enum Motivo m) {
 		if( contadores_quantum[cpu]==quantums[cpu]){
 
 			ColaGlobal.push(current_pid(cpu));
-			//int pid = ColaGlobal.front();
-			//ColaGlobal.pop();
-			//contadores_quantum[cpu-1]=0;
-			//return pid;
 			return next(cpu);
 		}
 	}
 	if(m==BLOCK || m == EXIT ){
 			
-			//int pid = ColaGlobal.front();
-			//ColaGlobal.pop();
-			//contadores_quantum[cpu-1]=0;
-			//return pid;
 			return next(cpu);
 	}
 	return current_pid(cpu);
