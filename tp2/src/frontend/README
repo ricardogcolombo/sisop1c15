@@ -1,0 +1,9 @@
+# README
+
+- frontend.py corre un servidor HTTP que atiende en el puerto 5482
+- simpleserv.py es un echo server que use para hacer pruebas (4 líneas, reemplaza al server en C)
+- cliente.html tiene adentro el HTML, el JS y el CSS de la GUI
+- en static/ estan las imagenes
+- en dev/ hay algun SVG que use para armar las imágenes
+
+That's all folks!

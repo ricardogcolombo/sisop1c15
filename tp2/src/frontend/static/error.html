@@ -1,0 +1,267 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="static/jquery.min.js"></script>
+<script type="text/javascript" src="static/jquery-ui.min.js"></script>
+<title>
+Cliente de SOScrabble
+</title>
+<style type="text/css">
+* {
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+}
+body {
+    background-color: #dbffef;
+}
+#global {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
+#banner {
+    width: 800px;
+/*    border-bottom: 2px solid #00949b;*/
+    clear: both;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+}
+#mmos {
+    margin: 50px 0px 10px 0px;
+}
+#hasobro {
+    float: right;
+    margin: 10px;
+}
+#slogan {
+    color: #00848b;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#coneccion {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+#coneccion input {
+    margin: 30px;
+}
+
+#coneccion a {
+    color: #1D9962;
+    padding: 7px;
+    text-decoration: none;
+}
+
+#coneccion a:hover {
+    background-color: #A6EDCE;
+}
+
+#botones_comandos {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#botones_comandos a {
+    color: #1D9962;
+    padding: 7px;
+    text-decoration: none;
+}
+
+#botones_comandos a:hover {
+    background-color: #A6EDCE;
+}
+
+#error {
+    border: 1px solid red;
+    background-color: #FFA6A6;
+    color: #990000;
+    width: 440px;
+    height: 150px;
+    padding: 20px;
+    font-size: 12px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+#error img {
+    margin-left: 190px;
+    margin-bottom: 20px;
+}
+
+#fin {
+    border: 1px solid green;
+    background-color: #93ED99;
+    color: #005500;
+    width: 380px;
+    height: 150px;
+    padding: 20px;
+    font-size: 12px;
+    padding-left: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    display: none;
+}
+
+#fin img {
+    margin-left: 160px;
+    margin-bottom: 20px;
+}
+
+#registro {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: none;
+}
+
+#registro input {
+    margin: 30px;
+    border: 1px solid 1D9962;
+    background-color: white;
+    width: 250px;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+}
+
+#registro a {
+    color: #1D9962;
+    padding: 7px;
+    text-decoration: none;
+}
+
+#registro a:hover {
+    background-color: #A6EDCE;
+}
+
+
+
+.tecla {
+    background-image: url('static/tecla.png');
+    font-size: 22px;
+    height: 34px;
+    width: 40px;
+    margin: 5px;
+    float: left;
+    text-align: center;
+    padding-top: 4px;
+    border: 0;
+    text-transform: uppercase;
+}
+
+.tecla_puesta {
+    background-image: url('static/tecla_amarilla.png');
+    font-size: 22px;
+    height: 34px;
+    width: 40px;
+    margin: 5px;
+    float: left;
+    text-align: center;
+    padding-top: 4px;
+    border: 0;    
+    text-transform: uppercase;
+}
+
+.hack {
+    clear: both;
+}
+
+/* TODO: borrar 
+.casillero {
+   width: 40px;
+   height: 34px;
+   margin: 5px;
+   float: left;
+   border: 1px solid #00848b;
+} */
+
+.casilla {
+   width: 40px;
+   height: 34px;
+   margin: 5px;
+   border: 1px solid #00848b;
+   text-transform: uppercase;
+}
+
+
+#juego {
+  display: none;
+}
+#tablero {
+   margin-top: 30px;
+   margin-bottom: 30px;
+   margin-left: auto;
+   margin-right: auto;
+   text-align: center;
+}
+
+#tablero table {
+      margin-left: auto;
+   margin-right: auto;
+}
+
+#log_container {
+   padding-top: 20px;
+   font-size: 13px;
+   width: 800px;
+   margin-left: auto;
+   margin-right: auto;
+   color: #1D9962;
+   text-align: center;
+}
+
+#log_container a {
+   padding: 7px;
+   text-decoration: none;
+   color: #1D9962;
+}
+
+#log_container a:hover {
+   background-color: #A6EDCE; 
+}
+
+
+#log {
+   margin-top: 7px;
+   width: 800px;
+   height: 300px;
+   background-color: #A6EDCE;
+   display: none;
+   font-size: 12px;
+   padding: 10px;
+   overflow: auto;
+   color: #1D9962;
+   text-align: left;
+}
+
+#cerrar_log {
+   display: none;
+}
+
+</style>
+</head>
+<body>
+<div id="global">
+<div id="banner">
+<img src="static/logo_mmos.png" id="mmos">
+<img src="static/logo_hasobro.png" id="hasobro">
+<div id="slogan">
+Massive Multiplayer Online Scrabble
+</div>
+</div>
+<div id="error">
+<img src="static/error.png"> <br />
+El servidor HTTP ya realizó la conexión al backend.
+<ul>
+<li>Para realizar una nueva conexión, reinicia el servidor HTTP.</li>
+<li>Para jugar simultáneamente con varios clientes, iniciá otro servidor HTTP en otro puerto.</li>
+</ul>
+</div>
+</body>
+</html>

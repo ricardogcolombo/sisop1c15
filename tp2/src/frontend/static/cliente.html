@@ -1,0 +1,606 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="static/jquery.min.js"></script>
+<script type="text/javascript" src="static/jquery-ui.min.js"></script>
+<script type="text/javascript">
+var id;
+var ancho;
+var alto;
+var palabra = [];
+
+function conectar() {
+    loguear("Iniciando conexión TCP...", 'black');
+    $.get('/comandos/new/', function(data) { 
+        if (data == "ERROR_SOCKET") {
+            loguear("¡Error! ¿Está corriendo el server?", 'red');
+            $('#coneccion').hide();
+	    $('#error').show();
+        } else {
+            id = data;
+            loguear("¡Conectado con éxito!", 'green');
+            $('#coneccion').hide();
+            $('#registro').fadeIn();
+	}
+    })
+    .error(function(jqXHR, textStatus, errorThrown) {
+        if(textStatus == 'timeout') {
+            loguear("¡Error! No recibí respuesta del server de <i>frontend</i>.", 'red');
+        } else {
+            loguear("¡Error! No me pude comunicar con el server de <i>frontend</i>.", 'red');
+        }
+        $('#coneccion').hide();
+        $('#error').show();
+    });
+    return false;
+}
+
+function registrar() {
+    if ($('#nombre_usuario').val().length < 1) {
+        alert('¡Ingresá un nombre de usuario!');
+        return false;
+    }
+
+    u = $('#nombre_usuario').val();
+    msg = "SOY " + u;
+    loguear("> " + msg, 'blue');
+    $.get('/comandos/' + id + '/' + msg, function(data) {
+        loguear("< " + data, 'gray');
+        m = data.match(/TABLERO (\d+) (\d+)/);
+        if (!m) {
+            loguear("¡Respuesta inesperada!", 'red');
+            $('#registro').hide();
+            $('#error').show();
+        } else {
+            ancho = m[1];
+            alto = m[2];
+            $('#registro').hide();
+
+            // Armo el tablero            
+            for(j = 0; j < alto; j++) {
+                $("#tablero > table:first").append('<tr id="fila_'+ j + '"></tr>');
+                for(i = 0; i < ancho; i++) {
+                    $("#fila_" + j).append('<td><div id="casilla_'+ j +'_'+ i +'" class="casilla">&nbsp;</div></td>');
+                }
+            }
+            
+            // Callback para drag & drop
+            $('.casilla').droppable({
+                drop: function(event, ui) {
+                    m = $(this).attr('id').match(/casilla_(\d+)_(\d+)/);
+                    fila = m[1];
+                    columna = m[2];
+                    letra = $(ui.draggable).html()
+                    msg = "LETRA " + fila + " " + columna + " " + letra;
+                    loguear("> " + msg, 'blue');
+                    var recuadro = $(this);
+                    $.get('/comandos/' + id + '/' + msg, function(data) {
+                       loguear("< " + data,  'gray');
+                       if (data == "OK") {
+                           palabra.push({fila:fila, columna:columna, letra: letra});
+                           recuadro.removeClass("casilla");
+                           recuadro.addClass("tecla_puesta");
+                           recuadro.html(letra);
+                       } else if (data == "ERROR") {
+                           loguear("Eliminando palabra...", 'red');
+                           for(k in palabra) {
+                               i = 'casilla_' + palabra[k].fila + '_' + palabra[k].columna;
+                               $('#'+i).removeClass("tecla_puesta");
+                               $('#'+i).addClass("casilla");
+                               $('#'+i).html(' ');
+                           }
+                           palabra = [];
+                       } else {
+                           loguear("¡Respuesta inesperada!", 'red');
+                           $('#juego').hide();
+                           $('#error').show();                       
+                       }
+                       
+                    })
+                    .error(function(jqXHR, textStatus, errorThrown) {
+                        if(textStatus == 'timeout') {
+                            loguear("¡Error! No recibí respuesta del server de <i>frontend</i>.", 'red');
+                        } else {
+                            loguear("¡Error! No me pude comunicar con el server de <i>frontend</i>.", 'red');
+                        }
+                        $('#juego').hide();
+                        $('#error').show();
+                    });
+                }
+            });          
+            $('#juego').fadeIn();
+        }
+    })
+    .error(function(jqXHR, textStatus, errorThrown) {
+        if(textStatus == 'timeout') {
+            loguear("¡Error! No recibí respuesta del server de <i>frontend</i>.", 'red');
+        } else {
+            loguear("¡Error! No me pude comunicar con el server de <i>frontend</i>.", 'red');
+        }
+        $('#registro').hide();
+        $('#error').show();
+    }); 
+    return false;
+}
+
+function palabra_completa() {
+    msg = "PALABRA";
+    loguear("> " + msg, 'blue');    
+    $.get('/comandos/' + id + '/' + msg, function(data) {
+        loguear("< " + data,  'gray');    
+        if (data == "OK") {
+            // Paso las letras amarillas a "planta permanente"
+            for(k in palabra) {
+               i = 'casilla_' + palabra[k].fila + '_' + palabra[k].columna;
+               $('#'+i).removeClass("tecla_puesta");
+               $('#'+i).addClass("tecla");
+            }            
+            palabra = [];
+        } else if (data == "ERROR") {
+            loguear("Eliminando palabra...", 'red');
+            for(k in palabra) {
+               i = 'casilla_' + palabra[k].fila + '_' + palabra[k].columna;
+               $('#'+i).removeClass("tecla_puesta");
+               $('#'+i).addClass("casilla");
+               $('#'+i).html(' ');
+            }
+        } else {
+            loguear("¡Respuesta inesperada!", 'red');
+            $('#juego').hide();
+            $('#error').show();          
+        }
+    })
+    .error(function(jqXHR, textStatus, errorThrown) {
+        if(textStatus == 'timeout') {
+            loguear("¡Error! No recibí respuesta del server de <i>frontend</i>.", 'red');
+        } else {
+            loguear("¡Error! No me pude comunicar con el server de <i>frontend</i>.", 'red');
+        }
+        $('#coneccion').hide();
+        $('#error').show();    
+    });
+    return false;
+}
+
+function update() {
+    msg = "UPDATE";
+    loguear("> " + msg, 'blue');    
+    $.get('/comandos/' + id + '/' + msg, function(data) {
+        loguear("< " + data,  'gray'); 
+        m = data.match(/^STATUS ([A-Za-z\-]+)$/);
+	if (m) {
+            n = 0;
+            for(j = 0; j < alto; j++) {
+                for(i = 0; i < ancho; i++) {
+                    letra = m[1][n];
+                    if(letra != '-') {
+                        ide = 'casilla_' + j + '_' + i;
+                        $('#'+ide).removeClass("casilla");
+                        $('#'+ide).addClass("tecla");
+                        $('#'+ide).html(letra);
+                    }
+                    n++;
+                }
+            }
+
+        } else {
+            loguear("¡Respuesta inesperada!", 'red');
+            $('#juego').hide();
+            $('#error').show();          
+        }
+    })
+    .error(function(jqXHR, textStatus, errorThrown) {
+        if(textStatus == 'timeout') {
+            loguear("¡Error! No recibí respuesta del server de <i>frontend</i>.", 'red');
+        } else {
+            loguear("¡Error! No me pude comunicar con el server de <i>frontend</i>.", 'red');
+        }
+        $('#coneccion').hide();
+        $('#error').show();    
+    });
+    return false;
+}
+
+function finalizar() {
+    loguear("Terminando conexión TCP...", 'black');
+    $.get('/comandos/delete/' + id, function(data) { 
+        if (data != "OK") {
+            loguear("¡Error! No se pudo terminar la conexión.", 'red');
+            $('#juego').hide();
+    	    $('#error').show();
+        } else {
+            id = data;
+            loguear("¡Conexión TCP cerrada con éxito!", 'green');
+            $('#juego').hide();
+            $('#fin').fadeIn();
+	}
+    })
+    .error(function(jqXHR, textStatus, errorThrown) {
+        if(textStatus == 'timeout') {
+            loguear("¡Error! No recibí respuesta del server de <i>frontend</i>.", 'red');
+        } else {
+            loguear("¡Error! No me pude comunicar con el server de <i>frontend</i>.", 'red');
+        }
+        $('#juego').hide();
+        $('#error').show();
+    });
+    return false;
+}
+
+function mostrar_log() {
+    $('#log').slideDown();
+    $('#abrir_log').hide();
+    $('#cerrar_log').show();
+    return false;
+}
+
+function ocultar_log() {
+    $('#log').slideUp();
+    $('#cerrar_log').hide();
+    $('#abrir_log').show();
+    return false;
+}
+
+function loguear(s, color) {
+    $('#log').prepend('<span style="display: block; color: ' + color + '">' + s + '</span>');
+}
+
+
+
+function enviar() {
+$('#dialogo > tbody:first').prepend('<tr><td>' + $("#texto").val() + '</td></tr>');
+$.get('/comandos/' + id + '/' + $('#texto').val(), function(data) {
+    $('#dialogo > tbody:first').prepend('<tr><td>' + data + '</td></tr>');
+});
+}
+</script>
+<title>
+Cliente de SOScrabble
+</title>
+<style type="text/css">
+* {
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+}
+body {
+    background-color: #dbffef;
+}
+#global {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
+#banner {
+    width: 800px;
+/*    border-bottom: 2px solid #00949b;*/
+    clear: both;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+}
+#mmos {
+    margin: 50px 0px 10px 0px;
+}
+#hasobro {
+    float: right;
+    margin: 10px;
+}
+#slogan {
+    color: #00848b;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#coneccion {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+#coneccion input {
+    margin: 30px;
+}
+
+#coneccion a {
+    color: #1D9962;
+    padding: 7px;
+    text-decoration: none;
+}
+
+#coneccion a:hover {
+    background-color: #A6EDCE;
+}
+
+#botones_comandos {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#botones_comandos a {
+    color: #1D9962;
+    padding: 7px;
+    text-decoration: none;
+}
+
+#botones_comandos a:hover {
+    background-color: #A6EDCE;
+}
+
+#error {
+    border: 1px solid red;
+    background-color: #FFA6A6;
+    color: #990000;
+    width: 380px;
+    height: 150px;
+    padding: 20px;
+    font-size: 12px;
+    padding-left: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    display: none;
+}
+
+#error img {
+    margin-left: 160px;
+    margin-bottom: 20px;
+}
+
+#fin {
+    border: 1px solid green;
+    background-color: #93ED99;
+    color: #005500;
+    width: 380px;
+    height: 150px;
+    padding: 20px;
+    font-size: 12px;
+    padding-left: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    display: none;
+}
+
+#fin img {
+    margin-left: 160px;
+    margin-bottom: 20px;
+}
+
+#registro {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: none;
+}
+
+#registro input {
+    margin: 30px;
+    border: 1px solid 1D9962;
+    background-color: white;
+    width: 250px;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+}
+
+#registro a {
+    color: #1D9962;
+    padding: 7px;
+    text-decoration: none;
+}
+
+#registro a:hover {
+    background-color: #A6EDCE;
+}
+
+
+
+.tecla {
+    background-image: url('static/tecla.png');
+    font-size: 22px;
+    height: 34px;
+    width: 40px;
+    margin: 5px;
+    float: left;
+    text-align: center;
+    padding-top: 4px;
+    border: 0;
+    text-transform: uppercase;
+}
+
+.tecla_puesta {
+    background-image: url('static/tecla_amarilla.png');
+    font-size: 22px;
+    height: 34px;
+    width: 40px;
+    margin: 5px;
+    float: left;
+    text-align: center;
+    padding-top: 4px;
+    border: 0;    
+    text-transform: uppercase;
+}
+
+.hack {
+    clear: both;
+}
+
+/* TODO: borrar 
+.casillero {
+   width: 40px;
+   height: 34px;
+   margin: 5px;
+   float: left;
+   border: 1px solid #00848b;
+} */
+
+.casilla {
+   width: 40px;
+   height: 34px;
+   margin: 5px;
+   border: 1px solid #00848b;
+   text-transform: uppercase;
+}
+
+
+#juego {
+  display: none;
+}
+#tablero {
+   margin-top: 30px;
+   margin-bottom: 30px;
+   margin-left: auto;
+   margin-right: auto;
+   text-align: center;
+}
+
+#tablero table {
+      margin-left: auto;
+   margin-right: auto;
+}
+
+#log_container {
+   padding-top: 20px;
+   font-size: 13px;
+   width: 800px;
+   margin-left: auto;
+   margin-right: auto;
+   color: #1D9962;
+   text-align: center;
+}
+
+#log_container a {
+   padding: 7px;
+   text-decoration: none;
+   color: #1D9962;
+}
+
+#log_container a:hover {
+   background-color: #A6EDCE; 
+}
+
+
+#log {
+   margin-top: 7px;
+   width: 800px;
+   height: 300px;
+   background-color: #A6EDCE;
+   display: none;
+   font-size: 12px;
+   padding: 10px;
+   overflow: auto;
+   color: #1D9962;
+   text-align: left;
+}
+
+#cerrar_log {
+   display: none;
+}
+
+</style>
+</head>
+<body>
+<div id="global">
+<div id="banner">
+<img src="static/logo_mmos.png" id="mmos">
+<img src="static/logo_hasobro.png" id="hasobro">
+<div id="slogan">
+Massive Multiplayer Online Scrabble
+</div>
+</div>
+<div id="error">
+<img src="static/error.png"> <br />
+Se produjo un error no recuperable y el cliente finalizó.
+<ul>
+<li>Para más información, consultá el log.</li>
+<li>Para intentar nuevamente, apretá F5.</li>
+</ul>
+</div>
+<div id="fin">
+<img src="static/ok.png"> <br />
+El cliente de SOScrabble terminó exitosamente.
+<ul>
+<li>Para jugar nuevamente, apretá F5.</li>
+<li>Para revisar el partido, consultá el log.</li>
+</ul>
+</div>
+<div id="coneccion">
+<input type="image" onclick="return conectar();" src="static/start.png"><br />
+<a href="" onclick="return conectar();" style="cursor: pointer;">¡Empezar a jugar!</a>
+</div>
+<div id="registro">
+Nombre del Jugador:
+<input type="text" id="nombre_usuario" onclick="$(this).val('');" value="Fulano"><br/>
+<a href="" onclick="return registrar();" style="cursor:pointer;">Registrarse en el servidor</a>
+</div>
+<div id="juego">
+<div id="botones_comandos">
+<a href="" onclick="return palabra_completa();">¡Palabra completada!</a>
+<a href="" onclick="return update();">Actualizar</a>
+<a href="" onclick="return finalizar();">Terminar el juego</a>
+</div>
+<div id="tablero">
+<table></table>
+</div>
+<div id="teclado">
+<div style="width: 250px; float: left;">&nbsp</div>
+<div class="tecla">Q</div>
+<div class="tecla">W</div>
+<div class="tecla">E</div>
+<div class="tecla">R</div>
+<div class="tecla">T</div>
+<div class="tecla">Y</div>
+<div class="tecla">U</div>
+<div class="tecla">I</div>
+<div class="tecla">O</div>
+<div class="tecla">P</div>
+<div class="hack"></div>
+<div style="width: 275px; float: left;">&nbsp</div>
+<div class="tecla">A</div>
+<div class="tecla">S</div>
+<div class="tecla">D</div>
+<div class="tecla">F</div>
+<div class="tecla">G</div>
+<div class="tecla">H</div>
+<div class="tecla">J</div>
+<div class="tecla">K</div>
+<div class="tecla">L</div>
+<div class="hack"></div>
+<div style="width: 325px; float: left;">&nbsp</div>
+<div class="tecla">Z</div>
+<div class="tecla">X</div>
+<div class="tecla">C</div>
+<div class="tecla">V</div>
+<div class="tecla">B</div>
+<div class="tecla">N</div>
+<div class="tecla">M</div>
+<div class="hack">&nbsp;</div>
+</div>
+</div>
+
+<div style="display: none;">
+<div id="id_socket">
+</div>
+<input type="text" id="texto">
+<a onclick="enviar();">Enviar</a>
+<table id="dialogo">
+<tbody>
+</tbody>
+</table> 
+</div>
+</div>
+<div id="log_container">
+<a id="abrir_log" href="" onclick="return mostrar_log();">Mostrar log y comunicaci&oacute;n TCP</a>
+<a id="cerrar_log" href="" onclick="return ocultar_log();">Ocultar log y comunicaci&oacute;n TCP</a>
+<div id="log">
+&nbsp;
+</div>
+</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.tecla').draggable({revert:true});
+    $.ajaxSetup({ timeout: 5000 }); 
+}) 
+</script>
+</html>
