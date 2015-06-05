@@ -84,18 +84,12 @@ int main(int argc, const char* argv[]) {
     }
 
     // aceptar conexiones entrantes.
-    //pthread_t inc_x_thread;
     socket_size = sizeof(remoto);
     while (true) {
         if ((socketfd_cliente = accept(socket_servidor, (struct sockaddr*) &remoto, (socklen_t*) &socket_size)) == -1)
             cerr << "Error al aceptar conexion" << endl;
         else {
-    
-        close(socket_servidor);
-
-//            void *nuevosoket = new int;
-  //          *((int*)nuevosoket) = socketfd_cliente;
-    //        pthread_create(&inc_x_thread,NULL,atendedor_de_jugador,nuevosoket);
+            close(socket_servidor);
             atendedor_de_jugador(socketfd_cliente);
         }
     }
@@ -105,10 +99,8 @@ int main(int argc, const char* argv[]) {
 }
 
 
-//void* atendedor_de_jugador(void* socket_fd_void) {
 void atendedor_de_jugador(int socket_fd) {
     // variables locales del jugador
-    //int socket_fd =  *((int*)socket_fd_void);
     char nombre_jugador[21];
     list<Casillero> palabra_actual; // lista de letras de la palabra aún no confirmada
 
@@ -181,7 +173,6 @@ void atendedor_de_jugador(int socket_fd) {
             terminar_servidor_de_jugador(socket_fd, palabra_actual);
         }
     }
-    //return NULL;
 }
 
 

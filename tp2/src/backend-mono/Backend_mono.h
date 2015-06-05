@@ -9,8 +9,7 @@
 using namespace std;
 bool cargar_int(const char* numero, unsigned int& n);
 
-//void* atendedor_de_jugador(void* socket_fd_void);
-void atendedor_de_jugador(int socket_fd_void);
+void atendedor_de_jugador(int socket_fd);
 
 
 // mensajes recibidos por el server
