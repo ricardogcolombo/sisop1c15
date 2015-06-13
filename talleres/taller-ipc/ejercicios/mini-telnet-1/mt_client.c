@@ -9,6 +9,11 @@ int main(int argc, char* argv[]) {
     int                 len;
     struct sockaddr_in  remote;
     char                buf[MENSAJE_MAXIMO];
+   if (argc != 2)
+   {
+      printf("usage:  client <IP address>\n");
+      exit(1);
+   }
 
     /* Crear un socket de tipo UNIX con SOCK_STREAM */
     if ((socket_fd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
