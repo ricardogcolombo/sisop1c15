@@ -1,0 +1,61 @@
+GRUPO 2
+ricardogcolombo@gmail.com, franconegri2004@hotmail.com, elgeniofederico@gmail.com
+
+Ricardo, Franco y Federico
+
+Su trabajo está DESAPROBADO. La principal razón es que TaskBatch no funciona y no hicieron el ejercicio 7. Otro punto importante es que no describen las implementaciones en el informe. Más allá de eso, estuvo muy buena la experimentación que realizaron y el análisis de los resultados.
+
+Les recomiendo mencionar en los epígrafes aunque sea una breve descripción del gráfico que se muestra.
+
+Introducción teórica
+Bien por agregarla
+
+Ejercicio 1 -- LISTO 
+Bien -
+No describen cómo la implementaron.
+Quedaron comentarios colgados en el código.
+
+Ejercicio 2 - LISTO
+Regular
+Está muy bueno el análisis pero no varían la cantidad de núcleos como pedía el enunciado.
+
+Ejercicio 3 -LISTO
+Bien -
+No describen cómo implementaron el scheduler.
+Buena experimentación.
+En el constructor usan ‘new’ pero nunca liberan esa memoria.
+Quedaron comentarios colgados en el código.
+
+Ejercicio 4 
+Bien
+Buena experimentación y análisis.
+En la figura 4 dicen que utilizan quantum 6 pero en la imagen dice 5.
+
+Ejercicio 5
+Bien
+Bien
+Bien
+No describen cómo implementaron los schedulers.
+Buena experimentación y análisis.
+
+Ejercicio 6 - Corregido 
+Mal
+No funciona. ¿Qué es usleep()? Tenían que usar uso_IO().
+
+Ejercicio 7
+No entrega
+
+Ejercicio 8
+Bien -
+No describen cómo implementaron el scheduler.
+En el constructor usan ‘new’ pero nunca liberan esa memoria.
+
+Ejercicio 9
+Bien
+
+Ejercicio 10
+No entrega (ni había que entregarlo)
+
+Conclusiones
+Bien, ningún trabajo está completo sin ellas.
+
