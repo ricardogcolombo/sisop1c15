@@ -33,9 +33,9 @@ SchedRR2::SchedRR2(vector<int> argn) {
 }
 
 SchedRR2::~SchedRR2() {
-	delete(quantumsRR2)
-	delete(contadores_quantumRR2)
-	delete(cantidadDeProcesosTotalCPU)
+	delete(quantumsRR2);
+	delete(contadores_quantumRR2);
+	delete(cantidadDeProcesosTotalCPU);
 }
 
 
