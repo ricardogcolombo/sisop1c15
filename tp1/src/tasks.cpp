@@ -55,9 +55,9 @@ void TaskBatch(int pid, vector<int> params) { // params: total_cpu, cant_bloqueo
 	int bloqueos_seteados = 0;
 //lleno todo de ceros por si las dudas
 	for(int j =0;j<total_cpu;j++)
-		tiempos[total_cpu]=0;
+		tiempos[j]=0;
 //elijo numeros aleatorios entre 0 y tiempo total para saber poner cuando hay un bloqueo
-	while(bloqueos_seteados<cant_bloqueos){
+	while(bloqueos_seteados<2){
 		int tiempo_bloq = rand()% total_cpu-1;
 		if(tiempos[tiempo_bloq]==0){
 			tiempos[tiempo_bloq]=1;
@@ -67,7 +67,6 @@ void TaskBatch(int pid, vector<int> params) { // params: total_cpu, cant_bloqueo
 	for(int i =0;i<total_cpu;i++){
 		if(tiempos[i]==0){
 			uso_CPU(pid,1);
-
 		}else{
 			uso_IO(pid,1);
 		}
