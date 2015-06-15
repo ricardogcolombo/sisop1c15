@@ -35,12 +35,10 @@ void TaskConBloqueo(int pid, vector<int> params) {
 }
 // n bmin y bmax en el vector
 void TaskConsola( int pid, vector<int> params) {
-	//int intervalo = params[2]-params[1]+1;
 	int n =  params[0];
 	int bmin = params[1];
 	int bmax = params[2]; 
 	int intervalo = bmax-bmin+1;
-	//int intervalo = params[2]-params[1]+1;
 	for (int i = 0; i < params[0]; i++) {
 		int tiempoBloq = rand()% intervalo +params[1];
 		uso_IO(pid,tiempoBloq);
