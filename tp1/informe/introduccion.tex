@@ -4,6 +4,7 @@ El objetivo de este trabajo practico será la implementacion y la experimentacio
 Para ello contaremos con un simulador que actuará como un sistema operativo y que entregará tareas para que cada scheduler corra. Estas tareas serán definidas de antemano, pudiendo simular en ellas un uso intensivo del CPU o una llamada bloqueante del sistema que equivaldrá a que la tarea deba esperar algun recurso del sistema.
 \\
 Para este trabajo implementaremos un scheduler Round Robin simple, un Round Robin que no permita la migración de procesos entre nucleos, más otros dos schedulers descriptos en el paper de C. L. Liu. Además la cátedra nos provee de un scheduler First Come First Served que utilizaremos para comparar los otros schedulers y sacar conclusiones de los mismos.
+
 \subsection{Metricas a utilizar}
 
 Para medir que tan 'buenos' son los algoritmos utilizados, empelaremos dos metricas distintas: Turnaround y Waiting Time.
@@ -17,9 +18,9 @@ El lector puede notar que estas dos metricas son bastante contradictorias ya que
 A manera de introducción, en la siguiente sección se implementarán algunas tareas simples las cuales correremos sobre el scheduler provisto por la catedra para intentar sacar alguas conclusiones preliminares.
 \subsection{Experimentacion Preliminar Sobre Scheduler FCFS}
 
-Para esta experimentación primero implementaremos una tarea a la que denominaremos TaskConsola, que simulará una tarea interactiva. La misma contara con $n$ llamadas bloqueantes al sistema de un tiempo aleatorio pasado por parámetro.
+Para esta experimentación primero implementaremos una tarea a la que denominaremos TaskConsola, que simulará una tarea interactiva. La misma contara con $n$ llamadas bloqueantes al sistema de un tiempo aleatorio pasado por parámetro. 
 
-La tarea TaskConsola es una función que recibe tres parámetros, el número $n$ de llamadas bloqueantes que debe realizar y las cotas superior e inferior que puede tener el intervalo aleatorio, $bmin$ y $bmax$. Una vez dentro de la función se cicla $n$ veces calculando el intervalo aleatorio en cada iteración y realizando una llamada bloqueante en cada caso con la duración correspondiente.
+La tarea TaskConsola es una función que recibe tres parámetros, el número $n$ de llamadas bloqueantes que debe realizar y las cotas superior e inferior que puede tener el intervalo aleatorio, $bmin$ y $bmax$. Una vez dentro de la función se cicla $n$ veces calculando el intervalo aleatorio en cada iteración , para esto utilizamos la funcion rand() de C++ , y realizando una llamada bloqueante en cada caso con la duración correspondiente, para simular las llamadas bloqueantes se utilizo la funcion USO_IO provista por la catedra.
 \\
 Luego crearemos un lote de tareas a ejecutar por el simulador, una que utilice de manera intensiva el CPU, y dos TaskConsola. Se realizará una simulación para uno, dos y tres núcleos.
 \\
