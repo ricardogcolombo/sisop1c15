@@ -90,7 +90,7 @@ int main(int argc, const char* argv[]) {
 			cerr << "Error al aceptar conexion" << endl;
 		} else {
 
-			close(socket_servidor);
+			//close(socket_servidor);
 			void *nuevosoket = new int;
 			*((int*)nuevosoket) = socketfd_cliente;
 			pthread_create(&inc_x_thread, NULL, atendedor_de_jugador, nuevosoket);
@@ -289,7 +289,8 @@ void terminar_servidor_de_jugador(int socket_fd, list<Casillero>& palabra_actual
 
 	quitar_letras(palabra_actual);
 
-	exit(-1);
+	//exit(-1);
+	pthread_exit(NULL);
 }
 
 
