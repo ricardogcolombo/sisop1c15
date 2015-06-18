@@ -12,6 +12,7 @@ vector<vector<char> > tablero_letras; // tiene letras que aún no son palabras v
 vector<vector<char> > tablero_palabras; // solamente tiene las palabras válidas
 
 RWLock *lock_tablero_letras;
+RWLock *lock_tablero_palabras;
 
 unsigned int ancho = -1;
 unsigned int alto = -1;
@@ -34,6 +35,7 @@ int main(int argc, const char* argv[]) {
 
 
 	lock_tablero_letras = new RWLock();
+	lock_tablero_palabras = new RWLock();
 
 	// parsear argumentos
 	if (argc < 3) {
@@ -143,8 +145,6 @@ void* atendedor_de_jugador(void* socket_fd_void) {
 
 			//WRITELOCK
 			lock_tablero_letras->wlock();
-			
-
 
 			if (es_ficha_valida_en_palabra(ficha, palabra_actual)) {
 				palabra_actual.push_back(ficha);
@@ -161,7 +161,6 @@ void* atendedor_de_jugador(void* socket_fd_void) {
 				}
 
 
-
 			} else {
 				quitar_letras(palabra_actual);
 				// ERROR
@@ -175,11 +174,15 @@ void* atendedor_de_jugador(void* socket_fd_void) {
 					terminar_servidor_de_jugador(socket_fd, palabra_actual);
 				}
 			}
+			
 			//FIN WRITELOCK
 			lock_tablero_letras->wunlock();
 
 
 		} else if (comando == MSG_PALABRA) {
+
+			//WRITELOCK
+			lock_tablero_palabras->wlock();
 			// las letras acumuladas conforman una palabra completa, escribirlas en el tablero de palabras y borrar las letras temporales
 			for (list<Casillero>::const_iterator casillero = palabra_actual.begin(); casillero != palabra_actual.end(); casillero++) {
 				tablero_palabras[casillero->fila][casillero->columna] = casillero->letra;
@@ -187,21 +190,27 @@ void* atendedor_de_jugador(void* socket_fd_void) {
 			palabra_actual.clear();
 
 			if (enviar_ok(socket_fd) != 0) {
+
+				//FIN WRITELOCK
+				lock_tablero_palabras->wunlock();
 				// se produjo un error al enviar. Cerramos todo.
 				terminar_servidor_de_jugador(socket_fd, palabra_actual);
 			}
+
+			//FIN WRITELOCK
+			lock_tablero_palabras->wunlock();
+
 		} else if (comando == MSG_UPDATE) {
 
 
 			//READ_LOCK
-			lock_tablero_letras->rlock();
+			lock_tablero_palabras->rlock();
 
 
 			if (enviar_tablero(socket_fd) != 0) {
 				
 				//FIN READ_LOCK
-				lock_tablero_letras->runlock();
-
+				lock_tablero_palabras->runlock();
 
 				// se produjo un error al enviar. Cerramos todo.
 				terminar_servidor_de_jugador(socket_fd, palabra_actual);
@@ -209,7 +218,7 @@ void* atendedor_de_jugador(void* socket_fd_void) {
 			
 
 			//FIN READ_LOCK
-			lock_tablero_letras->runlock();
+			lock_tablero_palabras->runlock();
 
 
 		} else if (comando == MSG_INVALID) {
