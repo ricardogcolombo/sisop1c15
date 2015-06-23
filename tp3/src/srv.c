@@ -14,7 +14,7 @@ typedef struct {
 
 void servidor_espera(Servidor* servidores, int origen, int size);
 void aviso_que_me_muero(Servidor *servidores, int size, int mi_rank);
-void negociar_acceso(int numero_magico, int size, Servidor* servidores);
+void negociar_acceso(int numero_magico_actual, int *numero_magico_maximo, int size, Servidor* servidores);
 Servidor *inicializar_servidores(int size);
 void avisoQueLibero(Servidor *servidores, int size);
 void servidor_muerto(Servidor* servidores, int origen, int size);
@@ -24,7 +24,8 @@ int *inicializar_dales(int size);
 
 
 void servidor(int mi_cliente) {
-	int numero_magico = 0;
+	int numero_magico_actual = 0;
+	int numero_magico_maximo = 0;
 	MPI_Status status;
 	int origen, tag;
 	int hay_pedido_local = FALSE;
@@ -47,8 +48,9 @@ void servidor(int mi_cliente) {
 			debug("Mi cliente solicita acceso exclusivo");
 			assert(hay_pedido_local == FALSE);
 			hay_pedido_local = TRUE;
-			numero_magico++;
-			negociar_acceso(numero_magico, size, servidores);
+			numero_magico_actual = numero_magico_maximo + 1;
+			numero_magico_maximo++;
+			negociar_acceso(numero_magico_actual, &numero_magico_maximo, size, servidores);
 
 			debug("Dándole permiso (frutesco por ahora)");
 			MPI_Send(NULL, 0, MPI_INT, mi_cliente, TAG_OTORGADO, COMM_WORLD);
@@ -70,9 +72,23 @@ void servidor(int mi_cliente) {
 		} else if (tag == TAG_PERMISO_SERVER && hay_pedido_local == FALSE) {
 			assert(origen % 2 == 0 );
 			debug("Un servidor pide acceso exclusivo");
+
+			//Actualizo el número mágico máximo si corresponde
+			if (numero_magico_maximo < numero)
+			{
+				numero_magico_maximo = numero;
+			}
+
 			MPI_Send(NULL, 0, MPI_INT, origen, TAG_DALE, COMM_WORLD);
 			debug("Le doy acceso exclusivo");
 		} else if (tag == TAG_PERMISO_SERVER && hay_pedido_local == TRUE) {
+
+			//Actualizo el número mágico máximo si corresponde
+			if (numero_magico_maximo < numero)
+			{
+				numero_magico_maximo = numero;
+			}
+
 			servidor_espera(servidores, origen, size);
 		} else if (tag == TAG_ADIOS) {
 			servidor_muerto(servidores, origen, size);
@@ -89,7 +105,7 @@ void aviso_que_me_muero(Servidor *servidores, int size, int mi_rank) {
 		}
 }
 
-void negociar_acceso(int numero_magico, int size, Servidor* servidores) {
+void negociar_acceso(int numero_magico_actual, int *numero_magico_maximo, int size, Servidor* servidores) {
 	int i;
 	int mi_rank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &mi_rank);
@@ -97,7 +113,7 @@ void negociar_acceso(int numero_magico, int size, Servidor* servidores) {
 	debug("Le pido acceso a los demas servidores");
 	for (i = 0; i < size; i++) {
 		if (servidores[i].rank != mi_rank && servidores[i].servidor_esta_vivo) {
-			MPI_Send(&numero_magico, 1, MPI_INT, servidores[i].rank, TAG_PERMISO_SERVER, COMM_WORLD);
+			MPI_Send(&numero_magico_actual, 1, MPI_INT, servidores[i].rank, TAG_PERMISO_SERVER, COMM_WORLD);
 		}
 	}
 	debug("Ok... ahora espero respuestas");
@@ -119,20 +135,27 @@ void negociar_acceso(int numero_magico, int size, Servidor* servidores) {
 		} else if (tag == TAG_PERMISO_SERVER) {
 			assert(origen % 2 == 0 );
 			debug("Un servidor pide acceso exclusivo");
-			if (numero_magico > otro_numero_magico) {
+
+			//Actualizo el número mágico máximo si corresponde
+			if (*numero_magico_maximo < otro_numero_magico)
+			{
+				*numero_magico_maximo = otro_numero_magico;
+			}
+
+			if (numero_magico_actual > otro_numero_magico) {
 				MPI_Send(NULL, 0, MPI_INT, origen, TAG_DALE, COMM_WORLD);
 				debug("Le doy acceso exclusivo");
-			} else if (numero_magico < otro_numero_magico) {
+			} else if (numero_magico_actual < otro_numero_magico) {
 				servidor_espera(servidores, origen, size);
-				debug("Espra");
-			} else if (numero_magico == otro_numero_magico) {
+				debug("Espera");
+			} else if (numero_magico_actual == otro_numero_magico) {
 				debug("Numeros magicos iguales!");
 				if (origen < mi_rank) {
 					MPI_Send(NULL, 0, MPI_INT, origen, TAG_DALE, COMM_WORLD);
 					debug("Le doy acceso exclusivo");
 				} else {
 					servidor_espera(servidores, origen, size);
-					debug("Espra");
+					debug("Espera");
 				}
 			}
 		}
