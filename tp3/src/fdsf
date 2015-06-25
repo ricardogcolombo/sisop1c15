@@ -1,0 +1,418 @@
+	rk0   s0        Enviando mensaje inicial con parámetros          
+	rk1   c0   1    	rk0   s0        Enviando mensaje inicial con parámetros          
+	¡Buenas! Recibí mensaje inicial con parámetros
+	rk1   c0   1    	   1 iters        1ms prev.        1ms crit.
+	rk1   c0   1    	Computando de todo un poco ...                   
+	rk0   s0        Enviando mensaje inicial con parámetros          
+	rk3   c1   b    	¡Buenas! Recibí mensaje inicial con parámetros
+	rk3   c1   b    	   2 iters      400ms prev.      200ms crit.
+	rk3   c1   b    	Computando de todo un poco ...                   
+	rk1   c0   1    	¡Necesito mutex!                                
+		rk0   s0        Enviando mensaje inicial con parámetros          
+	rk0   s0        Enviando mensaje inicial con parámetros          
+	rk7   c3   d    	¡Buenas! Recibí mensaje inicial con parámetros
+	rk7   c3   d    	   4 iters      800ms prev.      400ms crit.
+	rk7   c3   d    	Computando de todo un poco ...                   
+rk5   c2   c    	¡Buenas! Recibí mensaje inicial con parámetros
+	rk5   c2   c    	   3 iters      600ms prev.      300ms crit.
+	rk5   c2   c    	Computando de todo un poco ...                   
+	rk0   s0        Enviando mensaje inicial con parámetros          
+	rk9   c4   e    	¡Buenas! Recibí mensaje inicial con parámetros
+	rk9   c4   e    	   5 iters     1000ms prev.      500ms crit.
+	rk9   c4   e    	Computando de todo un poco ...                   
+	rk0   s0        Mi cliente solicita acceso exclusivo              
+	rk0   s0        Le pido acceso a los demas servidores             
+	rk0   s0        Ok... ahora espero respuestas                     
+	rk0   s0        6                                                 
+	rk2   s1        Un servidor pide acceso exclusivo                 
+		rk2   s1        Le doy acceso exclusivo                           
+	rk0   s0        RECIBO DE LA GILADA                               
+	rk0   s0        6                                                 
+	rk6   s3        Un servidor pide acceso exclusivo                 
+	rk6   s3        Le doy acceso exclusivo                           
+	rk0   s0        RECIBO DE LA GILADA                               
+	rk0   s0        6                                                 
+rk11  c5   f    	rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+	rk0   s0        RECIBO DE LA GILADA                               
+	rk0   s0        6                                                 
+	¡Buenas! Recibí mensaje inicial con parámetros
+	rk11  c5   f    	   6 iters     1200ms prev.      600ms crit.
+	rk11  c5   f    	Computando de todo un poco ...                   
+	rk4   s2        Un servidor pide acceso exclusivo                 
+		rk0   s0        RECIBO DE LA GILADA                               
+	rk0   s0        6                                                 
+rk4   s2        Le doy acceso exclusivo                           
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk0   s0        RECIBO DE LA GILADA                               
+		rk0   s0        Dándole permiso (frutesco por ahora)             
+	rk1   c0   1    	Entrando en sección crítica                    
+rk10  s5        Le doy acceso exclusivo                           
+		rk0   s0        Mi cliente libera su acceso exclusivo             
+rk1   c0   1    	Avisandole a mi servidor que voy a terminar      
+		rk0   s0        Mi cliente avisa que terminó                     
+	rk0   s0        Finalizando                                       
+rk1   c0   1    Finalizando                                       
+	rk3   c1   b    	¡Necesito mutex!                                
+	rk2   s1        Mi cliente solicita acceso exclusivo              
+	rk2   s1        Le pido acceso a los demas servidores             
+	rk4   s2        Un servidor pide acceso exclusivo                 
+			rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+rk4   s2        Le doy acceso exclusivo                           
+	rk6   s3        Un servidor pide acceso exclusivo                 
+	rk6   s3        Le doy acceso exclusivo                           
+rk2   s1        Ok... ahora espero respuestas                     
+	rk2   s1        6                                                 
+	rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        6                                                 
+	rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        6                                                 
+	rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        6                                                 
+	rk8   s4        Un servidor pide acceso exclusivo                 
+		rk8   s4        Le doy acceso exclusivo                           
+rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        Dándole permiso (frutesco por ahora)             
+	rk3   c1   b    	Entrando en sección crítica                    
+	rk5   c2   c    	¡Necesito mutex!                                
+	rk4   s2        Mi cliente solicita acceso exclusivo              
+	rk4   s2        Le pido acceso a los demas servidores             
+	rk4   s2        Ok... ahora espero respuestas                     
+	rk4   s2        6                                                 
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+	rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        6                                                 
+	rk8   s4        Un servidor pide acceso exclusivo                 
+	rk4   s2        RECIBO DE LA GILADA                               
+		rk4   s2        6                                                 
+rk8   s4        Le doy acceso exclusivo                           
+		rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        6                                                 
+rk6   s3        Un servidor pide acceso exclusivo                 
+	rk6   s3        Le doy acceso exclusivo                           
+		rk2   s1        Mi cliente libera su acceso exclusivo             
+	rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        Dándole permiso (frutesco por ahora)             
+rk3   c1   b    	Computando de todo un poco ...                   
+	rk5   c2   c    	Entrando en sección crítica                    
+	rk7   c3   d    	¡Necesito mutex!                                
+	rk6   s3        Mi cliente solicita acceso exclusivo              
+	rk6   s3        Le pido acceso a los demas servidores             
+		rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+rk6   s3        Ok... ahora espero respuestas                     
+	rk6   s3        6                                                 
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        6                                                 
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        6                                                 
+	rk2   s1        Un servidor pide acceso exclusivo                 
+		rk2   s1        Le doy acceso exclusivo                           
+rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        6                                                 
+	rk5   c2   c    	Computando de todo un poco ...                   
+	rk4   s2        Mi cliente libera su acceso exclusivo             
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        Dándole permiso (frutesco por ahora)             
+	rk7   c3   d    	Entrando en sección crítica                    
+	rk9   c4   e    	¡Necesito mutex!                                
+	rk8   s4        Mi cliente solicita acceso exclusivo              
+	rk8   s4        Le pido acceso a los demas servidores             
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+	rk8   s4        Ok... ahora espero respuestas                     
+	rk8   s4        6                                                 
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        6                                                 
+	rk2   s1        Un servidor pide acceso exclusivo                 
+		rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        6                                                 
+rk2   s1        Le doy acceso exclusivo                           
+	rk3   c1   b    	¡Necesito mutex!                                
+		rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        6                                                 
+	rk4   s2        Un servidor pide acceso exclusivo                 
+	rk4   s2        Le doy acceso exclusivo                           
+rk2   s1        Mi cliente solicita acceso exclusivo              
+	rk2   s1        Le pido acceso a los demas servidores             
+			rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+rk2   s1        Ok... ahora espero respuestas                     
+	rk2   s1        6                                                 
+	rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        6                                                 
+	rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        6                                                 
+	rk4   s2        Un servidor pide acceso exclusivo                 
+	rk4   s2        Le doy acceso exclusivo                           
+rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+	rk8   s4        6                                                 
+	rk11  c5   f    	¡Necesito mutex!                                
+	rk10  s5        Mi cliente solicita acceso exclusivo              
+	rk10  s5        Le pido acceso a los demas servidores             
+		rk4   s2        Un servidor pide acceso exclusivo                 
+	rk4   s2        Le doy acceso exclusivo                           
+	rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        Un servidor pide acceso exclusivo                 
+	rk10  s5        Ok... ahora espero respuestas                     
+rk2   s1        Le doy acceso exclusivo                           
+	rk2   s1        6                                                 
+	rk10  s5        6                                                 
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        6                                                 
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        6                                                 
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+	rk8   s4        6                                                 
+		rk6   s3        Mi cliente libera su acceso exclusivo             
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        6                                                 
+rk7   c3   d    	Computando de todo un poco ...                   
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        Dándole permiso (frutesco por ahora)             
+	rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        6                                                 
+	rk9   c4   e    	Entrando en sección crítica                    
+	rk5   c2   c    	¡Necesito mutex!                                
+	rk4   s2        Mi cliente solicita acceso exclusivo              
+	rk4   s2        Le pido acceso a los demas servidores             
+	rk4   s2        Ok... ahora espero respuestas                     
+	rk4   s2        6                                                 
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+		rk2   s1        RECIBO DE LA GILADA                               
+rk10  s5        6                                                 
+	rk2   s1        Un servidor pide acceso exclusivo                 
+	rk2   s1        Le doy acceso exclusivo                           
+	rk2   s1        6                                                 
+	rk6   s3        Un servidor pide acceso exclusivo                 
+		rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        6                                                 
+rk6   s3        Le doy acceso exclusivo                           
+	rk8   s4        Mi cliente libera su acceso exclusivo             
+	rk9   c4   e    	Computando de todo un poco ...                   
+	rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        6                                                 
+	rk2   s1        RECIBO DE LA GILADA                               
+	rk2   s1        Dándole permiso (frutesco por ahora)             
+	rk3   c1   b    	Entrando en sección crítica                    
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        Dándole permiso (frutesco por ahora)             
+	rk11  c5   f    	Entrando en sección crítica                    
+	rk3   c1   b    	Avisandole a mi servidor que voy a terminar      
+	rk2   s1        Mi cliente libera su acceso exclusivo             
+	rk3   c1   b    Finalizando                                       
+		rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        6                                                 
+rk2   s1        Mi cliente avisa que terminó                     
+	rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        Dándole permiso (frutesco por ahora)             
+	rk5   c2   c    	Entrando en sección crítica                    
+	rk2   s1        Finalizando                                       
+	rk7   c3   d    	¡Necesito mutex!                                
+	rk6   s3        Mi cliente solicita acceso exclusivo              
+	rk6   s3        Le pido acceso a los demas servidores             
+		rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+rk6   s3        Ok... ahora espero respuestas                     
+	rk6   s3        6                                                 
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        6                                                 
+	rk5   c2   c    	Computando de todo un poco ...                   
+	rk4   s2        Mi cliente libera su acceso exclusivo             
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        6                                                 
+		rk10  s5        Mi cliente libera su acceso exclusivo             
+rk11  c5   f    	Computando de todo un poco ...                   
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        Dándole permiso (frutesco por ahora)             
+	rk7   c3   d    	Entrando en sección crítica                    
+	rk9   c4   e    	¡Necesito mutex!                                
+	rk8   s4        Mi cliente solicita acceso exclusivo              
+	rk8   s4        Le pido acceso a los demas servidores             
+		rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+	rk4   s2        Un servidor pide acceso exclusivo                 
+	rk4   s2        Le doy acceso exclusivo                           
+rk8   s4        Ok... ahora espero respuestas                     
+	rk8   s4        6                                                 
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        6                                                 
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        6                                                 
+		rk6   s3        Mi cliente libera su acceso exclusivo             
+rk7   c3   d    	Computando de todo un poco ...                   
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        Dándole permiso (frutesco por ahora)             
+	rk9   c4   e    	Entrando en sección crítica                    
+	rk5   c2   c    	¡Necesito mutex!                                
+	rk4   s2        Mi cliente solicita acceso exclusivo              
+	rk4   s2        Le pido acceso a los demas servidores             
+	rk4   s2        Ok... ahora espero respuestas                     
+	rk4   s2        6                                                 
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+	rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        6                                                 
+	rk6   s3        Un servidor pide acceso exclusivo                 
+	rk4   s2        RECIBO DE LA GILADA                               
+		rk4   s2        6                                                 
+rk6   s3        Le doy acceso exclusivo                           
+		rk8   s4        Mi cliente libera su acceso exclusivo             
+	rk5   c2   c    	Entrando en sección crítica                    
+	rk4   s2        RECIBO DE LA GILADA                               
+	rk4   s2        Dándole permiso (frutesco por ahora)             
+rk9   c4   e    	Computando de todo un poco ...                   
+	rk11  c5   f    	¡Necesito mutex!                                
+	rk10  s5        Mi cliente solicita acceso exclusivo              
+	rk10  s5        Le pido acceso a los demas servidores             
+		rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+rk10  s5        Ok... ahora espero respuestas                     
+	rk10  s5        6                                                 
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        6                                                 
+	rk7   c3   d    	¡Necesito mutex!                                
+	rk6   s3        Un servidor pide acceso exclusivo                 
+	rk6   s3        Le doy acceso exclusivo                           
+		rk6   s3        Mi cliente solicita acceso exclusivo              
+	rk6   s3        Le pido acceso a los demas servidores             
+	rk6   s3        Ok... ahora espero respuestas                     
+	rk6   s3        6                                                 
+rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        6                                                 
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+	rk10  s5        6                                                 
+	rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        6                                                 
+		rk4   s2        Mi cliente libera su acceso exclusivo             
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        6                                                 
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        Dándole permiso (frutesco por ahora)             
+	rk7   c3   d    	Entrando en sección crítica                    
+	rk4   s2        Mi cliente avisa que terminó                     
+	rk4   s2        Finalizando                                       
+rk5   c2   c    	Avisandole a mi servidor que voy a terminar      
+	rk5   c2   c    Finalizando                                       
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        Dándole permiso (frutesco por ahora)             
+	rk11  c5   f    	Entrando en sección crítica                    
+	rk7   c3   d    	Computando de todo un poco ...                   
+	rk6   s3        Mi cliente libera su acceso exclusivo             
+		rk10  s5        Mi cliente libera su acceso exclusivo             
+rk11  c5   f    	Computando de todo un poco ...                   
+		rk6   s3        Un servidor pide acceso exclusivo                 
+	rk6   s3        Le doy acceso exclusivo                           
+	rk8   s4        Mi cliente solicita acceso exclusivo              
+	rk8   s4        Le pido acceso a los demas servidores             
+	rk8   s4        Ok... ahora espero respuestas                     
+	rk8   s4        6                                                 
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        6                                                 
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+rk9   c4   e    	¡Necesito mutex!                                
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        Dándole permiso (frutesco por ahora)             
+	rk9   c4   e    	Entrando en sección crítica                    
+		rk8   s4        Mi cliente libera su acceso exclusivo             
+rk9   c4   e    	Computando de todo un poco ...                   
+	rk7   c3   d    	¡Necesito mutex!                                
+	rk10  s5        Un servidor pide acceso exclusivo                 
+	rk10  s5        Le doy acceso exclusivo                           
+	rk6   s3        Mi cliente solicita acceso exclusivo              
+	rk6   s3        Le pido acceso a los demas servidores             
+	rk6   s3        Ok... ahora espero respuestas                     
+	rk6   s3        6                                                 
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        6                                                 
+	rk6   s3        RECIBO DE LA GILADA                               
+	rk6   s3        Dándole permiso (frutesco por ahora)             
+	rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+	rk7   c3   d    	Entrando en sección crítica                    
+	rk7   c3   d    	Avisandole a mi servidor que voy a terminar      
+	rk7   c3   d    Finalizando                                       
+	rk6   s3        Mi cliente libera su acceso exclusivo             
+	rk6   s3        Mi cliente avisa que terminó                     
+	rk6   s3        Finalizando                                       
+	rk11  c5   f    	¡Necesito mutex!                                
+	rk10  s5        Mi cliente solicita acceso exclusivo              
+	rk10  s5        Le pido acceso a los demas servidores             
+	rk10  s5        Ok... ahora espero respuestas                     
+	rk11  c5   f    	Entrando en sección crítica                    
+	rk10  s5        6                                                 
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        Dándole permiso (frutesco por ahora)             
+	rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+	rk8   s4        Mi cliente solicita acceso exclusivo              
+	rk8   s4        Le pido acceso a los demas servidores             
+	rk8   s4        Ok... ahora espero respuestas                     
+	rk8   s4        6                                                 
+	rk9   c4   e    	¡Necesito mutex!                                
+	rk10  s5        Mi cliente libera su acceso exclusivo             
+		rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        Dándole permiso (frutesco por ahora)             
+	rk9   c4   e    	Entrando en sección crítica                    
+rk11  c5   f    	Computando de todo un poco ...                   
+	rk8   s4        Mi cliente libera su acceso exclusivo             
+	rk9   c4   e    	Computando de todo un poco ...                   
+	rk11  c5   f    	¡Necesito mutex!                                
+	rk10  s5        Mi cliente solicita acceso exclusivo              
+	rk10  s5        Le pido acceso a los demas servidores             
+	rk10  s5        Ok... ahora espero respuestas                     
+	rk10  s5        6                                                 
+	rk10  s5        RECIBO DE LA GILADA                               
+	rk10  s5        Dándole permiso (frutesco por ahora)             
+	rk8   s4        Un servidor pide acceso exclusivo                 
+	rk8   s4        Le doy acceso exclusivo                           
+	rk11  c5   f    	Entrando en sección crítica                    
+	rk9   c4   e    	¡Necesito mutex!                                
+	rk8   s4        Mi cliente solicita acceso exclusivo              
+	rk8   s4        Le pido acceso a los demas servidores             
+	rk8   s4        Ok... ahora espero respuestas                     
+	rk8   s4        6                                                 
+		rk10  s5        Mi cliente libera su acceso exclusivo             
+	rk8   s4        RECIBO DE LA GILADA                               
+	rk8   s4        Dándole permiso (frutesco por ahora)             
+rk11  c5   f    	Computando de todo un poco ...                   
+	rk9   c4   e    	Entrando en sección crítica                    
+	rk8   s4        Mi cliente libera su acceso exclusivo             
+	rk9   c4   e    	Avisandole a mi servidor que voy a terminar      
+	rk8   s4        Mi cliente avisa que terminó                     
+	rk8   s4        Finalizando                                       
+	rk9   c4   e    Finalizando                                       
+	rk11  c5   f    	¡Necesito mutex!                                
+	rk10  s5        Mi cliente solicita acceso exclusivo              
+	rk10  s5        Le pido acceso a los demas servidores             
+	rk10  s5        Ok... ahora espero respuestas                     
+	rk10  s5        Dándole permiso (frutesco por ahora)             
+	rk11  c5   f    	Entrando en sección crítica                    
+	rk10  s5        Mi cliente libera su acceso exclusivo             
+	rk11  c5   f    	Computando de todo un poco ...                   
+	rk10  s5        Mi cliente solicita acceso exclusivo              
+	rk10  s5        Le pido acceso a los demas servidores             
+	rk10  s5        Ok... ahora espero respuestas                     
+	rk10  s5        Dándole permiso (frutesco por ahora)             
+	rk11  c5   f    	¡Necesito mutex!                                
+	rk11  c5   f    	Entrando en sección crítica                    
+	rk10  s5        Mi cliente libera su acceso exclusivo             
+	rk10  s5        Mi cliente avisa que terminó                     
+	rk10  s5        Finalizando                                       
+	rk11  c5   f    	Avisandole a mi servidor que voy a terminar      
+	rk11  c5   f    Finalizando                                       
