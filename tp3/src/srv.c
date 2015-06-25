@@ -134,7 +134,7 @@ void negociar_acceso(int numero_magico_actual, int *numero_magico_maximo, int si
 		int otro_numero_magico;
 		//recibo todos los mensajes posibles
 		MPI_Recv(&otro_numero_magico, 1, MPI_INT, ANY_SOURCE, ANY_TAG, COMM_WORLD, &status);
-		debug("RECIBO DE LA GILADA");
+		debug("RECIBO DE LOS SERVIDORES");
 
 		int tag = status.MPI_TAG;
 		int origen = status.MPI_SOURCE;
