@@ -219,8 +219,70 @@ El Teorema 7 dice que dado un set de $m$ tareas, el algoritmo de scheduling din�
 
 
 \subsection{TaskBatch y simulacion con Round Robin}
-La Tarea Task Batch consiste en un tipo de tarea dado dos parametros, total$\_$cpu que indica el total de uso del cpu que realiza y cant$\_$bloqueos que representa la cantidad de bloqueos que debe realizar esta tarea desde que inicia su ejecucion hasta que se cumplen total$\_$cpu ticks de reloj.Para la implementacion de esta tarea se crea un arreglo de longitud igual a total$\_$cpu y se llena de ceros, en este arreglo representaremos en que tick de reloj se realizara la llamada bloqueante con un 1, para esto realizamos un ciclo que dure mientras no se hayan seteado todas las llamadas bloqueantes, en cada iteracion se obtiene una posicion entre 0 y total$\_$cpu-1 utilizando la funcion rand() de C++, se checkea si esta esta seteada en 0, en caso de estarlo se setea en 1 y se aumenta la cantidad de bloqueos seteados, caso contrario sigue ciclando.
+La Tarea Task Batch consiste en un tipo de tarea dado dos parámetros, total$\_$cpu que indica el total de uso del cpu que realiza y cant$\_$bloqueos que representa la cantidad de bloqueos que debe realizar esta tarea desde que inicia su ejecución hasta que se cumplen total$\_$cpu ticks de reloj. Para la implementación de esta tarea se crea un arreglo de longitud igual a total$\_$cpu y se llena de ceros, en este arreglo representaremos en que tick de reloj se realizara la llamada bloqueante con un 1, para esto realizamos un ciclo que dure mientras no se hayan seteado todas las llamadas bloqueantes, en cada iteración se obtiene una posición entre 0 y total$\_$cpu-1 utilizando la función rand() de C++, se checkea si esta esta seteada en 0, en caso de estarlo se setea en 1 y se aumenta la cantidad de bloqueos seteados, caso contrario sigue ciclando.
 
-Una vez completado marcadas todas las llamadas bloqueantes en el arreglo se recorre el mismo y en caso de encontrarse un 0 se llama a la funcion USO$\_$CPU por 1 tick de reloj, caso contrario se llama a la funcion USO$\_$IO por un tick de reloj.
+Una vez completado marcadas todas las llamadas bloqueantes en el arreglo se recorre el mismo y en caso de encontrarse un 0 se llama a la función USO$\_$CPU por 1 tick de reloj, caso contrario se llama a la función USO$\_$IO por un tick de reloj.
+
+Para la simulación de las tareas de TaskBatch con un algoritmo de scheduling Round Robin creamos un lote de 5 tareas con un tiempo total de 10 ticks de ejecución y una cantidad desbloqueos que varia entre 1 y 5, buscaremos cual es una buena combinación de cores/quantums para poder mejorar en primer lugar el rendimiento o throughput y el tiempo de respuesta.
+El Rendimiento o Throughput se refiere a la cantidad de procesos terminados por unidad de tiempo, con esto vamos a aprovechar mas el procesador para terminar tareas y ejecutar otras.
+El Tiempo de respuesta es el tiempo que demora en llegar al procesador hasta devolver los resultados, mejorando esto se mejora la interacción con el usuario ya que la misma va a ser mas rápida.\\
+Primero ejecutamos la simulacion para un solo proceso variando el quantum de procesador y obtuvimos los siguientes resultados
+
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.45]{graficos/ejercicio7/testTask1.png}
+  \caption[Task Batch con un nucleao y quantum 1]{}
+\end{figure}
 
 
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.45]{graficos/ejercicio7/testTask4.png}
+  \caption[Task Batch con un nucleo y quantum 4]{}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.45]{graficos/ejercicio7/testTask6.png}
+  \caption[Task Batch con un nucleo y quantum 6]{}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.45]{graficos/ejercicio7/testTask8.png}
+  \caption[Task Batch con un nucleo y  quantum 8]{}
+\end{figure}
+ 
+% TODO: agregar analisis 
+Luego ejecutamos el mismo lote de tareas para 2 nucleos y para 3 nucleos obteniendo los siguientes resultados.
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.45]{graficos/ejercicio7/2testTask1.png}
+  \caption[Task Batch con un nucleo y quantum 6]{}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.45]{graficos/ejercicio7/2testTask3.png}
+  \caption[Task Batch con un nucleo y quantum 6]{}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.45]{graficos/ejercicio7/3testTask1.png}
+  \caption[Task Batch con un nucleo y  quantum 8]{}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.45]{graficos/ejercicio7/3testTask3.png}
+  \caption[Task Batch con un nucleo y  quantum 8]{}
+\end{figure}
+ 
