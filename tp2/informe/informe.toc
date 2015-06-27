@@ -1,0 +1,5 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Algoritmos Servidor}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}Env\IeC {\'\i }o una letra}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Confirmaci\IeC {\'o}n de una palabra}{3}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Petici\IeC {\'o}n de Actualizaci\IeC {\'o}n}{3}{subsection.1.3}

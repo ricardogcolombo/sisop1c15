@@ -216,3 +216,11 @@ Como mencionamos anteriormente, el algoritmo Fixed acota con sus limitaciones el
 
 \subsection{Teorema 7}
 El Teorema 7 dice que dado un set de $m$ tareas, el algoritmo de scheduling dinámico es factible si y solo si ($C_1$/$T_1$) + ($C_2$/$T_2$) + ... + ($C_m$/$T_m$) $\le$ 1. Lo que esto nos dice es que el factor de utilización del procesador de este algoritmo de scheduling no debe pasar de 1, o sea, si se tiene un set de tareas en el cual la demanda de cómputo total es mayor al tiempo disponible del procesador entonces el algoritmo de scheduling dinámico no es factible para ese set de tareas ya que al no haber suficiente tiempo de procesamiento disponible, el overflow es inevitable.
+
+
+\subsection{TaskBatch y simulacion con Round Robin}
+La Tarea Task Batch consiste en un tipo de tarea dado dos parametros, total$\_$cpu que indica el total de uso del cpu que realiza y cant$\_$bloqueos que representa la cantidad de bloqueos que debe realizar esta tarea desde que inicia su ejecucion hasta que se cumplen total$\_$cpu ticks de reloj.Para la implementacion de esta tarea se crea un arreglo de longitud igual a total$\_$cpu y se llena de ceros, en este arreglo representaremos en que tick de reloj se realizara la llamada bloqueante con un 1, para esto realizamos un ciclo que dure mientras no se hayan seteado todas las llamadas bloqueantes, en cada iteracion se obtiene una posicion entre 0 y total$\_$cpu-1 utilizando la funcion rand() de C++, se checkea si esta esta seteada en 0, en caso de estarlo se setea en 1 y se aumenta la cantidad de bloqueos seteados, caso contrario sigue ciclando.
+
+Una vez completado marcadas todas las llamadas bloqueantes en el arreglo se recorre el mismo y en caso de encontrarse un 0 se llama a la funcion USO$\_$CPU por 1 tick de reloj, caso contrario se llama a la funcion USO$\_$IO por un tick de reloj.
+
+
