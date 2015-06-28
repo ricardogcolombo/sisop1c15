@@ -222,10 +222,10 @@ Como mencionamos anteriormente, el algoritmo Fixed acota con sus limitaciones el
 El Teorema 7 dice que dado un set de $m$ tareas, el algoritmo de scheduling dinámico es factible si y solo si ($C_1$/$T_1$) + ($C_2$/$T_2$) + ... + ($C_m$/$T_m$) $\le$ 1. Lo que esto nos dice es que el factor de utilización del procesador de este algoritmo de scheduling no debe pasar de 1, o sea, si se tiene un set de tareas en el cual la demanda de cómputo total es mayor al tiempo disponible del procesador entonces el algoritmo de scheduling dinámico no es factible para ese set de tareas ya que al no haber suficiente tiempo de procesamiento disponible, el overflow es inevitable.
 
 
-\subsection{TaskBatch y simulacion con Round Robin}
-La Tarea Task Batch consiste en un tipo de tarea dado dos parámetros, total$\_$cpu que indica el total de uso del cpu que realiza y cant$\_$bloqueos que representa la cantidad de bloqueos que debe realizar esta tarea desde que inicia su ejecución hasta que se cumplen total$\_$cpu ticks de reloj. Para la implementación de esta tarea se crea un arreglo de longitud igual a total$\_$cpu y se llena de ceros, en este arreglo representaremos en que tick de reloj se realizará la llamada bloqueante con un 1, para esto realizamos un ciclo que dure mientras no se hayan seteado todas las llamadas bloqueantes, en cada iteración se obtiene una posición entre 0 y total$\_$cpu-1 utilizando la función rand() de C++, se chequea si esta está seteada en 0, en caso de estarlo se setea en 1 y se aumenta la cantidad de bloqueos seteados, caso contrario sigue ciclando.
+\subsection{TaskBatch y simulación con Round Robin}
+La Tarea Task Batch consiste en un tipo de tarea que recibe dos parámetros, total$\_$cpu que indica el total de uso del cpu que realiza y cant$\_$bloqueos que representa la cantidad de bloqueos que debe realizar esta tarea desde que inicia su ejecución hasta que se cumplen total$\_$cpu ticks de reloj. Para la implementación de esta tarea se crea un arreglo de longitud igual a total$\_$cpu y se llena de ceros, en este arreglo representaremos en qué tick de reloj se realizará la llamada bloqueante con un 1, para esto realizamos un ciclo que dure mientras no se hayan seteado todas las llamadas bloqueantes, en cada iteración se obtiene una posición entre 0 y total$\_$cpu-1 utilizando la función rand() de C++, se chequea si esta está seteada en 0, en caso de estarlo se setea en 1 y se aumenta la cantidad de bloqueos seteados, caso contrario sigue ciclando.
 
-Una vez completado marcadas todas las llamadas bloqueantes en el arreglo se recorre el mismo y en caso de encontrarse un 0 se llama a la función USO$\_$CPU por 1 tick de reloj, caso contrario se llama a la función USO$\_$IO por un tick de reloj.
+Una vez marcadas todas las llamadas bloqueantes en el arreglo, se lo recorre y se llama a la función USO$\_$CPU por 1 tick de reloj cuando encuentro un $1$, o a la función USO$\_$IO por un tick de reloj cuando encuentro un $0$.
 
 Para la simulación de las tareas de TaskBatch con un algoritmo de scheduling Round Robin creamos un lote de 5 tareas con un tiempo total de 10 ticks de ejecución y una cantidad de bloqueos que varía entre 1 y 5, buscaremos cual es una buena combinación de cores/quantums para poder mejorar en primer lugar el rendimiento o throughput y el tiempo de respuesta.
 El Rendimiento o Throughput se refiere a la cantidad de procesos terminados por unidad de tiempo, con esto vamos a aprovechar más el procesador para terminar tareas y ejecutar otras.
@@ -236,34 +236,34 @@ Primero ejecutamos la simulación para un solo proceso variando el quantum de pr
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.45]{graficos/ejercicio7/testTask1.png}
-  \caption[Task Batch con un nucleao y quantum 1]{}
+  \caption[Task Batch con un núcleo y quantum 1]{}
 \end{figure}
 
 
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.45]{graficos/ejercicio7/testTask4.png}
-  \caption[Task Batch con un nucleo y quantum 4]{}
+  \caption[Task Batch con un núcleo y quantum 4]{}
 \end{figure}
 
 
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.45]{graficos/ejercicio7/testTask6.png}
-  \caption[Task Batch con un nucleo y quantum 6]{}
+  \caption[Task Batch con un núcleo y quantum 6]{}
 \end{figure}
 
 
 \begin{figure}[H]
   \centering
 \includegraphics[scale=0.45]{graficos/ejercicio7/testTask8.png}
-  \caption[Task Batch con un nucleo y  quantum 8]{}
+  \caption[Task Batch con un núcleo y quantum 8]{}
 \end{figure}
  
-Como se puede observar en los graficos, a medida que se agranda el quantum que posee el core la cantidad de procesos terminados posee una leve mejora, el casi de un quantum unitario las tareas tardan mucho y esto también se debe al cambio de contexto. En el segundo gráfico se puede observar la mejora de casi el doble de tiempo con un quantum de 4 ticks, pero como puede verse en los graficos de los cores con quantum 6 y 8 el salto no es grande y el crecimiento de procesos terminados en unidad de tiempo comienza a acostarse la mejora.
-En cuanto a la interacción con el usuario, en estos casos el mejor quantum resulta ser el unitario, ya que sea cual sea el proceso del usuario es cuando menor tiempo pasa esperando que se le sigue en procesador para ejecutar, en los casos de 4,6 y 8 ticks de quantum llega a tener en espera de que se le asigne el procesador alrededor de 15 ticks de reloj, esto a vista del usuario es tiempo en que en la computadora no ve resultados y no es recomendable en cuanto a la vista de interacción.
+Como se puede observar en los gráficos, a medida que se agranda el quantum que posee el core la cantidad de procesos terminados presenta una leve mejora, en el caso de un quantum unitario las tareas tardan mucho y esto también se debe al cambio de contexto. En el segundo gráfico se puede observar la mejora de casi el doble de tiempo con un quantum de 4 ticks, pero como puede verse en los gráficos de los cores con quantum 6 y 8 el salto no es grande y el crecimiento de procesos terminados en unidad de tiempo comienza a reducir su mejora.
+En cuanto a la interacción con el usuario, en estos casos el mejor quantum resulta ser el unitario, ya que sea cual sea el proceso del usuario es cuando menor tiempo pasa esperando que se le asigne un procesador para ejecutar, en los casos de 4, 6 y 8 ticks de quantum llega a tener en espera de que se le asigne el procesador alrededor de 15 ticks de reloj, esto a vista del usuario es tiempo en que en la computadora no ve resultados y no es recomendable en cuanto a la vista de interacción.
 
-Luego ejecutamos el mismo lote de tareas para 2 nucleos y para 3 núcleos obteniendo los siguientes resultados.
+Luego ejecutamos el mismo lote de tareas para 2 núcleos y para 3 núcleos obteniendo los siguientes resultados.
 
 
 \begin{figure}[H]
@@ -292,8 +292,9 @@ Luego ejecutamos el mismo lote de tareas para 2 nucleos y para 3 núcleos obteni
 \includegraphics[scale=0.45]{graficos/ejercicio7/3testTask1.png}
   \caption[Task Batch con un nucleo y  quantum 8]{}
 \end{figure}
-En cuanto al caso de múltiples cores se sigue evidenciando que mientras mas quantum tengan los procesadores el rendimiento es mayor, tanto para 2 y 3 cores se ve en los casos de 2 y 8 ticks de quantum una mejora que varía entre un 15\% y 20\%, ademas al agregarle la posibilidad de ejecutar procesos en paralelo mejora la cota que se presentaba para el caso de un solo core.
 
-Por otro lado también se nota una mejora en cuanto a la interacción con el usuario, lo que se nota es que si bien la interacción con el usuario sigue siendo levemente mejor cuando el quantum es menor, al agregarle la posibilidad de tener múltiples procesos en simultáneo es factible terminar procesos del so antes y poder atender los procesos del usuario.
+En cuanto al caso de múltiples cores se sigue evidenciando que mientras más quantum tengan los procesadores el rendimiento es mayor, tanto para 2 y 3 cores se ve en los casos de 2 y 8 ticks de quantum una mejora que varía entre un 15\% y un 20\%, además al agregarle la posibilidad de ejecutar procesos en paralelo mejora la cota que se presentaba para el caso de un solo core.
 
-En conclusión, cuando tenemos un solo core es difícil tener una buena relación entre rendimiento y tiempo de respuesta, pero al agregar cores comienza a darle más facilidad para poder atender los procesos del usuario y del so permitiendo un buen equilibrio para el buen funcionamiento del sistema.
+Por otro lado, también se nota una mejora en cuanto a la interacción con el usuario, lo que se nota es que si bien la interacción con el usuario sigue siendo levemente mejor cuando el quantum es menor, al agregarle la posibilidad de tener múltiples procesos en simultáneo es factible terminar procesos del so antes y poder atender los procesos del usuario.
+
+En conclusión, cuando tenemos un solo core es difícil tener una buena relación entre rendimiento y tiempo de respuesta, pero al agregar cores se comienza a darle al scheduler más facilidad para poder atender los procesos del usuario y del so permitiendo un buen equilibrio para el buen funcionamiento del sistema.
