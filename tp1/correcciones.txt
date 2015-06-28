@@ -38,24 +38,24 @@ Bien
 No describen cómo implementaron los schedulers.
 Buena experimentación y análisis.
 
-Ejercicio 6 - Arreglada y agregada la descripcion de la implementacion en el informe
+Ejercicio 6 -LISTO  
 Mal
 No funciona. ¿Qué es usleep()? Tenían que usar uso_IO().
 
-Ejercicio 7 -- 
+Ejercicio 7 --LISTO  
 No entrega
 
-Ejercicio 8
+Ejercicio 8  - LISTO
 Bien -
 No describen cómo implementaron el scheduler.
 En el constructor usan ‘new’ pero nunca liberan esa memoria.
 
-Ejercicio 9
+Ejercicio 9 LISTO
 Bien
 
-Ejercicio 10
+Ejercicio 10 LISTO
 No entrega (ni había que entregarlo)
 
-Conclusiones
+Conclusiones LISTO
 Bien, ningún trabajo está completo sin ellas.
 
