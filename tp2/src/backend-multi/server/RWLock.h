@@ -17,9 +17,8 @@ class RWLock {
         pthread_cond_t vcw;
         int cantLeyendo;
         bool escribiendo;
-        int cantEscritoresEsperando;
         int cantLecturasSeguidas;
-        int cantEscrituras;
+        int esperoParaLeer;
 };
 
 #endif

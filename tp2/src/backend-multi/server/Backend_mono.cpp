@@ -471,10 +471,10 @@ void test() {
 
 void *t1(void *datos) {
 	for (int i = 0; i < 9; i++) {
-		sleep(1);
+		usleep(20);
 		lock_tablero_palabras->wlock();
 		cerr << "Escribo" << endl;
-		sleep(1);
+		usleep(10);
 		lock_tablero_palabras->wunlock();
 	}
 
@@ -483,10 +483,10 @@ void *t1(void *datos) {
 
 void *t2(void *datos) {
 	for (int i = 0; i < 9; i++) {
-		sleep(1);
+		usleep(57);
 		lock_tablero_palabras->rlock();
 		cerr << "Leo" << endl;
-		sleep(1);
+		usleep(70);
 		lock_tablero_palabras->runlock();
 	}
 	pthread_exit(NULL);
@@ -495,10 +495,10 @@ void *t2(void *datos) {
 
 void *t3(void *datos) {
 	for (int i = 0; i < 9; i++) {
-		sleep(1);
+		usleep(50);
 		lock_tablero_palabras->rlock();
 		cerr << "Leo" << endl;
-		sleep(1);
+		usleep(20);
 		lock_tablero_palabras->runlock();
 	}
 	pthread_exit(NULL);
@@ -507,10 +507,10 @@ void *t3(void *datos) {
 
 void *t4(void *datos) {
 	for (int i = 0; i < 9; i++) {
-		sleep(1);
+		usleep(60);
 		lock_tablero_palabras->rlock();
 		cerr << "Leo" << endl;
-		sleep(1);
+		usleep(60);
 		lock_tablero_palabras->runlock();
 	}
 	pthread_exit(NULL);
@@ -519,10 +519,10 @@ void *t4(void *datos) {
 
 void *t5(void *datos) {
 	for (int i = 0; i < 9; i++) {
-		sleep(1);
+		usleep(100);
 		lock_tablero_palabras->wlock();
 		cerr << "Escribo" << endl;
-		sleep(1);
+		usleep(150);
 		lock_tablero_palabras->wunlock();
 	}
 	pthread_exit(NULL);
