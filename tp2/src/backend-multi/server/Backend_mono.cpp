@@ -17,7 +17,12 @@ RWLock *lock_tablero_palabras;
 unsigned int ancho = -1;
 unsigned int alto = -1;
 
-
+void test();
+void *t1(void *datos);
+void *t2(void *datos);
+void *t3(void *datos);
+void *t4(void *datos);
+void *t5(void *datos);
 
 bool cargar_int(const char* numero, unsigned int& n) {
 	char *eptr;
@@ -90,6 +95,8 @@ int main(int argc, const char* argv[]) {
 		return 1;
 	}
 
+	test();
+
 	// aceptar conexiones entrantes.
 	pthread_t inc_x_thread;
 	socket_size = sizeof(remoto);
@@ -111,9 +118,12 @@ int main(int argc, const char* argv[]) {
 }
 
 
+
 void* atendedor_de_jugador(void* socket_fd_void) {
 //void atendedor_de_jugador(int socket_fd) {
 	// variables locales del jugador
+
+
 	int socket_fd =  *((int*)socket_fd_void);
 	char nombre_jugador[21];
 	list<Casillero> palabra_actual; // lista de letras de la palabra aún no confirmada
@@ -165,7 +175,7 @@ void* atendedor_de_jugador(void* socket_fd_void) {
 				quitar_letras(palabra_actual);
 				// ERROR
 				if (enviar_error(socket_fd) != 0) {
-					
+
 
 					//FIN WRITELOCK
 					lock_tablero_letras->wunlock();
@@ -174,7 +184,7 @@ void* atendedor_de_jugador(void* socket_fd_void) {
 					terminar_servidor_de_jugador(socket_fd, palabra_actual);
 				}
 			}
-			
+
 			//FIN WRITELOCK
 			lock_tablero_letras->wunlock();
 
@@ -208,14 +218,14 @@ void* atendedor_de_jugador(void* socket_fd_void) {
 
 
 			if (enviar_tablero(socket_fd) != 0) {
-				
+
 				//FIN READ_LOCK
 				lock_tablero_palabras->runlock();
 
 				// se produjo un error al enviar. Cerramos todo.
 				terminar_servidor_de_jugador(socket_fd, palabra_actual);
 			}
-			
+
 
 			//FIN READ_LOCK
 			lock_tablero_palabras->runlock();
@@ -442,3 +452,79 @@ bool puso_letra_en(unsigned int fila, unsigned int columna, const list<Casillero
 	return false;
 }
 
+void test() {
+	pthread_t threads[5];
+	pthread_create(&threads[0], NULL, t1, NULL);
+	pthread_create(&threads[1], NULL, t2, NULL);
+	pthread_create(&threads[2], NULL, t3, NULL);
+	pthread_create(&threads[3], NULL, t4, NULL);
+	pthread_create(&threads[4], NULL, t5, NULL);
+
+	pthread_join(threads[0], NULL);
+	pthread_join(threads[1], NULL);
+	pthread_join(threads[2], NULL);
+	pthread_join(threads[3], NULL);
+	pthread_join(threads[4], NULL);
+
+	cout << "Test realizado con exito!" << endl;
+}
+
+void *t1(void *datos) {
+	for (int i = 0; i < 9; i++) {
+		sleep(1);
+		lock_tablero_palabras->wlock();
+		cerr << "Escribo" << endl;
+		sleep(1);
+		lock_tablero_palabras->wunlock();
+	}
+
+	pthread_exit(NULL);
+}
+
+void *t2(void *datos) {
+	for (int i = 0; i < 9; i++) {
+		sleep(1);
+		lock_tablero_palabras->rlock();
+		cerr << "Leo" << endl;
+		sleep(1);
+		lock_tablero_palabras->runlock();
+	}
+	pthread_exit(NULL);
+
+}
+
+void *t3(void *datos) {
+	for (int i = 0; i < 9; i++) {
+		sleep(1);
+		lock_tablero_palabras->rlock();
+		cerr << "Leo" << endl;
+		sleep(1);
+		lock_tablero_palabras->runlock();
+	}
+	pthread_exit(NULL);
+
+}
+
+void *t4(void *datos) {
+	for (int i = 0; i < 9; i++) {
+		sleep(1);
+		lock_tablero_palabras->rlock();
+		cerr << "Leo" << endl;
+		sleep(1);
+		lock_tablero_palabras->runlock();
+	}
+	pthread_exit(NULL);
+
+}
+
+void *t5(void *datos) {
+	for (int i = 0; i < 9; i++) {
+		sleep(1);
+		lock_tablero_palabras->wlock();
+		cerr << "Escribo" << endl;
+		sleep(1);
+		lock_tablero_palabras->wunlock();
+	}
+	pthread_exit(NULL);
+
+}
