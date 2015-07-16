@@ -8,14 +8,15 @@ RWLock :: RWLock() {
 	cantLeyendo = 0;
 	escribiendo = false;
 	cantLecturasSeguidas = 0;
-
+	quieroEscribir = 0;
+	esperoParaLeer = 0;
 }
 
 void RWLock :: rlock() {
 	//pthread_rwlock_rdlock(rwlock);
 	pthread_mutex_lock(&mutex);
 	esperoParaLeer++;
-	while (escribiendo || cantLecturasSeguidas >= 10) {
+	while (escribiendo || (cantLecturasSeguidas >= 10 && quieroEscribir != 0 )) {
 		pthread_cond_wait(&vcr, &mutex);
 	}
 	esperoParaLeer--;
@@ -26,9 +27,11 @@ void RWLock :: rlock() {
 void RWLock :: wlock() {
 	//pthread_rwlock_wrlock(rwlock);
 	pthread_mutex_lock(&mutex);
+	quieroEscribir++;
 	while (escribiendo || cantLeyendo > 0) {
 		pthread_cond_wait(&vcw, &mutex);
 	}
+	quieroEscribir--;
 	escribiendo = true;
 	cantLecturasSeguidas = 0;
 	pthread_mutex_unlock(&mutex);

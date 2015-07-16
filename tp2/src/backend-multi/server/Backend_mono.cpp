@@ -454,6 +454,10 @@ bool puso_letra_en(unsigned int fila, unsigned int columna, const list<Casillero
 
 void test() {
 	pthread_t threads[5];
+
+	cerr << "Iniciando testeo de locks..." << endl;	
+
+	//Test de lecturas y escrituras
 	pthread_create(&threads[0], NULL, t1, NULL);
 	pthread_create(&threads[1], NULL, t2, NULL);
 	pthread_create(&threads[2], NULL, t3, NULL);
@@ -466,7 +470,40 @@ void test() {
 	pthread_join(threads[3], NULL);
 	pthread_join(threads[4], NULL);
 
-	cout << "Test realizado con exito!" << endl;
+	cerr << "Test 1 OK!" << endl;
+	//Test de lecturas
+
+	pthread_create(&threads[0], NULL, t2, NULL);
+	pthread_create(&threads[1], NULL, t2, NULL);
+	pthread_create(&threads[2], NULL, t3, NULL);
+	pthread_create(&threads[3], NULL, t4, NULL);
+	pthread_create(&threads[4], NULL, t2, NULL);
+
+	pthread_join(threads[0], NULL);
+	pthread_join(threads[1], NULL);
+	pthread_join(threads[2], NULL);
+	pthread_join(threads[3], NULL);
+	pthread_join(threads[4], NULL);
+
+	cerr << "Test 2 OK!" << endl;
+	//Test de lecturas y escrituras
+
+
+	pthread_create(&threads[0], NULL, t1, NULL);
+	pthread_create(&threads[1], NULL, t1, NULL);
+	pthread_create(&threads[2], NULL, t1, NULL);
+	pthread_create(&threads[3], NULL, t5, NULL);
+	pthread_create(&threads[4], NULL, t5, NULL);
+
+	pthread_join(threads[0], NULL);
+	pthread_join(threads[1], NULL);
+	pthread_join(threads[2], NULL);
+	pthread_join(threads[3], NULL);
+	pthread_join(threads[4], NULL);
+
+	cerr << "Test 3 OK!" << endl;
+
+	cerr << "Tests realizados con exito!" << endl;
 }
 
 void *t1(void *datos) {

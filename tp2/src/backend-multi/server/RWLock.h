@@ -19,6 +19,7 @@ class RWLock {
         bool escribiendo;
         int cantLecturasSeguidas;
         int esperoParaLeer;
+        int quieroEscribir;
 };
 
 #endif
