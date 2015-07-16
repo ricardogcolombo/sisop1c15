@@ -42,7 +42,7 @@ void RWLock :: runlock() {
 	pthread_mutex_lock(&mutex);
 	cantLeyendo--;
 	cantLecturasSeguidas++;
-	if (cantLeyendo == 0 || (cantLecturasSeguidas >= 10 && quieroEscribir != 0 )) {
+	if (cantLeyendo == 0 && quieroEscribir != 0 ) {
 		pthread_cond_signal(&vcw);
 	}
 	pthread_mutex_unlock(&mutex);

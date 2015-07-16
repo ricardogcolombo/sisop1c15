@@ -520,10 +520,10 @@ void *t1(void *datos) {
 
 void *t2(void *datos) {
 	for (int i = 0; i < 9; i++) {
-		usleep(57);
+		usleep(1);
 		lock_tablero_palabras->rlock();
 		cerr << "Leo" << endl;
-		usleep(70);
+		usleep(1);
 		lock_tablero_palabras->runlock();
 	}
 	pthread_exit(NULL);
@@ -532,10 +532,10 @@ void *t2(void *datos) {
 
 void *t3(void *datos) {
 	for (int i = 0; i < 9; i++) {
-		usleep(50);
+		usleep(1);
 		lock_tablero_palabras->rlock();
 		cerr << "Leo" << endl;
-		usleep(20);
+		usleep(1);
 		lock_tablero_palabras->runlock();
 	}
 	pthread_exit(NULL);
@@ -544,10 +544,10 @@ void *t3(void *datos) {
 
 void *t4(void *datos) {
 	for (int i = 0; i < 9; i++) {
-		usleep(60);
+		usleep(1);
 		lock_tablero_palabras->rlock();
 		cerr << "Leo" << endl;
-		usleep(60);
+		usleep(10);
 		lock_tablero_palabras->runlock();
 	}
 	pthread_exit(NULL);
