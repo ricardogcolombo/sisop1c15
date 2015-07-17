@@ -54,7 +54,7 @@ void RWLock :: wunlock() {
 	escribiendo = false;
 	if(esperoParaLeer > 0)
 		pthread_cond_broadcast(&vcr);
-	else
+	else if(quieroEscribir != 0)
 		pthread_cond_signal(&vcw);
 	pthread_mutex_unlock(&mutex);
 }
