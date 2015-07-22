@@ -57,7 +57,7 @@ static ssize_t primos_read(struct file *file, char *buf, size_t count, loff_t *p
 
     res = esPrimo_check(primo);
     printk(KERN_INFO "esPrimo: %d\n", res);
-    int len = sprintf(buffer, "%d", res);
+    int len = sprintf(buffer, "%d\n", res);
     if (copy_to_user(buf, buffer,len))
         return -EINVAL;
     *ppos = len;
